@@ -34,7 +34,7 @@ public class Cameracontrol : MonoBehaviour
 
     }
 
-    // 카메라 고정 위치(Zoom-In 상태일 때)
+    // 카메라 및 손전등 고정 위치(Zoom-In 상태일 때)
     public void Fixation(float x, float z)
     {
         playerRotate.playerState = PlayerRotate.rotateState.Stop;
@@ -42,9 +42,11 @@ public class Cameracontrol : MonoBehaviour
         float boardY = clickManager.hit.transform.rotation.eulerAngles.y;
         boardY = (boardY + 180) % 360;
         transform.rotation = Quaternion.Euler(x, boardY, z);
+
+        Flashlight.transform.rotation = transform.rotation;
     }
 
-    // 마우스 위치에 따른 시점 이동
+    // 마우스 위치에 따른 시점 및 손전등 이동
     private void Rotate()
     {
         MouseX += Input.GetAxisRaw("Mouse X") * MouseSensitivity * Time.deltaTime;

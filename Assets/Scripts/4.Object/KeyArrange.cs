@@ -18,13 +18,14 @@ public class KeyArrange : MonoBehaviour
 
         Vector3 index = keySpaces[num].position;
 
-        if (num < 16)
+        // 사물함 안에 열쇠를 배치할 때
+        if (num < 18)
         {
             index.x -= 0.15f;
-            index.y += 0.05f;
             index.z += 0.1f;
         }
 
+        index.y += 0.05f;
         transform.position = index;
 
     }

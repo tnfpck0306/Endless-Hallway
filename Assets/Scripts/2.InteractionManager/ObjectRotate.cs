@@ -20,7 +20,8 @@ public class ObjectRotate : MonoBehaviour
 
         while (speed < 1.5f)
         {
-            speed += Time.deltaTime;
+            //speed += Time.deltaTime;
+            speed += 0.007f;
             float yRoatation = Mathf.Lerp(current, target, speed) % 360.0f;
 
             objectTransform.eulerAngles = new Vector3(objectTransform.eulerAngles.x, yRoatation, objectTransform.eulerAngles.z);

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class InteractionManager : MonoBehaviour
 {
     public GameObject playerCamera;
+    public GameObject flashLight;
     public GameObject zoomOutButton;
 
     public Cameracontrol cameraControl;
@@ -18,7 +19,8 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private float shakeAmount = 0.5f;
 
     private Transform zoomObject;
-    private Vector3 cameraPosition;
+    private Vector3 cameraPosition; // Zoom-In 이전 카메라 위치
+    private Vector3 flashPosition; // Zoom-In 이전 손전등 위치
 
     public void Start()
     {
@@ -82,6 +84,7 @@ public class InteractionManager : MonoBehaviour
             zoomObject.GetComponent<BoxCollider>().enabled = true;
 
             playerCamera.transform.position = cameraPosition;
+            flashLight.transform.position = flashPosition;
         }
 
     }
@@ -89,7 +92,8 @@ public class InteractionManager : MonoBehaviour
     // 오브젝트에 Zoom-In(타겟오브젝트, x/z축 거리, y축 거리)
     private void ZoomIn(Transform target, float distance, float distanceY)
     {
-        cameraPosition = playerCamera.transform.position;
+        cameraPosition = playerCamera.transform.position; // 카메라 position 저장
+        flashPosition = flashLight.transform.position; // 손전등 position 저장
 
         GameManager.instance.zoomIn = true;
         zoomOutButton.SetActive(true);
@@ -105,6 +109,8 @@ public class InteractionManager : MonoBehaviour
         else if (target.eulerAngles.y == 180)
             playerCamera.transform.position = new Vector3(target.position.x, target.position.y + distanceY, target.position.z - distance);
 
+        // 카메라 위치에 손전등 위치 이동
+        flashLight.transform.position = playerCamera.transform.position;
     }
 
     IEnumerator Shack(Transform targetObject)
