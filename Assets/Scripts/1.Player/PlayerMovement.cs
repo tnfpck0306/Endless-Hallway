@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public Transform[] targetPositions; // 플레이어 이동의 각 목적지
     public Transform[] doorObject;
+    public Transform cameraTransform;
     public PlayerRotate playerRotate;
     public FadeControl fadeControl;
     public ObjectRotate objectRotate;
@@ -16,11 +17,22 @@ public class PlayerMovement : MonoBehaviour
     private string rayHitString;
     public bool doorCheck;
 
+    public float moveSpeed = 1f; // 움직임 속도
+
+    public AudioSource audioSource;
+    public AudioClip footstepSound;
+
     // 플레이어가 완료한 도착 위치 (0. 초기위치, 1. 코너위치, 2. 도착위치)
     public int playerLocation = 0;
 
+    private void Start()
+    {
+        audioSource.clip = footstepSound;
+    }
+
     private void Update()
     {
+        /*
         if (playerRotate.playerState == PlayerRotate.rotateState.Walk)
         {
             if (playerLocation == 0)
@@ -43,12 +55,39 @@ public class PlayerMovement : MonoBehaviour
                 objectRotate.Rotation(-90f, doorObject[3]);
                 Movement(4);
             }
-        }
+        }*/
+
+        PlayerMove();
 
         if (Input.GetMouseButtonDown(0))
         {
             rayHitString = clickManager.rayHitString;
             ClickCheck();
+        }
+    }
+
+    private void PlayerMove()
+    {
+        // 입력값 받기
+        float moveX = Input.GetAxis("Horizontal");
+        float moveZ = Input.GetAxis("Vertical");
+
+        // 움직임 벡터 계산
+        Vector3 movement = cameraTransform.forward * moveZ + cameraTransform.right * moveX;
+        movement.y = 0f;
+
+        transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+
+        if(movement.magnitude > 0)
+        {
+            if(!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.Stop();
         }
     }
 
