@@ -7,9 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public Transform[] targetPositions; // 플레이어 이동의 각 목적지
     public Transform[] doorObject;
-    public Transform cameraTransform;
-    public PlayerRotate playerRotate;
-    public FadeControl fadeControl;
+    public Transform cameraTransform; // 카메라 참조
     public ObjectRotate objectRotate;
     public ClickManager clickManager;
 
@@ -19,15 +17,23 @@ public class PlayerMovement : MonoBehaviour
 
     public float moveSpeed = 1f; // 움직임 속도
 
-    public AudioSource audioSource;
-    public AudioClip footstepSound;
+    public AudioSource audioSource; // 플레이어 AudioSource
+    public AudioClip footstepSound; // 플레이어 발소리 Clip
+    private bool isSprinting = false;
 
-    // 플레이어가 완료한 도착 위치 (0. 초기위치, 1. 코너위치, 2. 도착위치)
-    public int playerLocation = 0;
+    public enum PlayerState // 플레이어의 상태
+    {
+        Walk, // 걷는 시점
+        Stop, // 정지 시점
+        ZoomIn // 확대 시점
+    }
+
+    public PlayerState playerState;
 
     private void Start()
     {
         audioSource.clip = footstepSound;
+        playerState = PlayerState.Stop;
     }
 
     private void Update()
@@ -72,21 +78,31 @@ public class PlayerMovement : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
+        isSprinting = Input.GetKey(KeyCode.LeftShift);
+
+        float currentSpeed = isSprinting ? moveSpeed * 2.0f : moveSpeed;
+
         // 움직임 벡터 계산
         Vector3 movement = cameraTransform.forward * moveZ + cameraTransform.right * moveX;
         movement.y = 0f;
 
-        transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+        transform.position += movement.normalized * currentSpeed * Time.deltaTime;
 
+        // 움직임이 있을 때
         if(movement.magnitude > 0)
         {
+            audioSource.pitch = isSprinting ? 1.5f : 1f;
+
+            playerState = PlayerState.Walk;
             if(!audioSource.isPlaying)
             {
                 audioSource.Play();
             }
         }
+        // 움직임이 없을 때
         else
         {
+            playerState = PlayerState.Stop;
             audioSource.Stop();
         }
     }
@@ -101,7 +117,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, targetPositions[target].position) == 0)
         {
-            playerRotate.playerState = PlayerRotate.rotateState.Stop;
             
             if(target == 3 || target == 4)
                 SceneManager.LoadScene("Endless Hallway01");
@@ -111,13 +126,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void ClickCheck()
     {
-        if (rayHitString == "Key")
-        {
-            clickManager.ZoomOut();
-            playerRotate.check = false;
-            playerLocation = 1;
-            playerRotate.Rotation(90f);
-        }
 
         if (rayHitString == "Anomaly")
         {
@@ -136,7 +144,6 @@ public class PlayerMovement : MonoBehaviour
         flash.GetComponent<AudioSource>().Play();
         flash.GetComponent<Light>().enabled = false;
 
-        playerRotate.playerState = PlayerRotate.rotateState.Walk;
         transform.position = new Vector3(21.5f, 1f, 22f);
         playerSpeed = 0.01f;
 
@@ -149,23 +156,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         GameManager.instance.GetStageState();
-        playerLocation = 2;
 
         //fadeControl.FadeOut();
         //fadeControl.RegisterCallback(PlayerReturn);
-    }
-
-    // 한사이클 후 복귀
-    public void PlayerReturn()
-    {
-        transform.eulerAngles = new Vector3(0, 0, 0); // 플레이어 Rotate 초기화
-        transform.position = targetPositions[0].position; // 플레이어 Position 초기화
-        
-        playerRotate.cornercheck = false; // 코너 시점변경 확인 초기화
-        playerRotate.check = true; // 플레이어 시점 변화 초기화
-
-        fadeControl.FadeIn(); // 페이드인
-        playerLocation = 0; // 위치 초기화
-        playerRotate.playerState = PlayerRotate.rotateState.Stop; // 플레이어 Stop 상태
     }
 }

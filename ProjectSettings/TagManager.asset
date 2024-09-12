@@ -10,7 +10,7 @@ TagManager:
   - Door
   - Board
   - Rack
-  - EachRack
+  - OpenObj
   layers:
   - Default
   - TransparentFX

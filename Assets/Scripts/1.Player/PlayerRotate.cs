@@ -8,7 +8,6 @@ public class PlayerRotate : MonoBehaviour
     private Transform playerTransform;
     public PlayerMovement playerMovement;
 
-    public Text playerStateText;
     public Text checkText;
 
     public bool check; // 시점 변화 가능 여부 (True = 시점 변화 가능, False = 시점 변화 불가능)
@@ -33,7 +32,7 @@ public class PlayerRotate : MonoBehaviour
 
     private void Update()
     {
-        playerStateText.text = $"PlayerState : {playerState}";
+        
         checkText.text = $"TurnCheck : {check}";
 
         // zoom-In 상태가 아닐 때 플레이어는 상태를 바꿀 수 있다.
@@ -106,12 +105,5 @@ public class PlayerRotate : MonoBehaviour
             yield return null;
         }
         check = true;
-
-        if (playerMovement.playerLocation == 1)
-        {
-            yield return new WaitForSeconds(1f);
-            cornercheck = true;
-            playerState = rotateState.Walk;
-        }
     }
 }

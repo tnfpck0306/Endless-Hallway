@@ -12,6 +12,7 @@ public class ClickManager : MonoBehaviour
 
     public Ray ray;
     public RaycastHit hit;
+    public GameObject interactionObj;
     public string rayHitString;
 
     private void Update()
@@ -20,7 +21,7 @@ public class ClickManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RayClick();
-            interactionManager.Interaction();
+            interactionManager.Interaction(interactionObj);
         }
     }
 
@@ -28,7 +29,7 @@ public class ClickManager : MonoBehaviour
     public void ZoomOut()
     {
         rayHitString = "ZoomOut";
-        interactionManager.Interaction();
+        interactionManager.Interaction(interactionObj);
     }
 
     private void RayClick()
@@ -37,7 +38,8 @@ public class ClickManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            rayHitString = hit.transform.gameObject.tag;
+            interactionObj = hit.transform.gameObject;
+            rayHitString = interactionObj.tag;
             Debug.Log(rayHitString);
         }
 

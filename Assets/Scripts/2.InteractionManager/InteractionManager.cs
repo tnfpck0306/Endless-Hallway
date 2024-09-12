@@ -12,6 +12,7 @@ public class InteractionManager : MonoBehaviour
     public Cameracontrol cameraControl;
     private ObjectRotate objectRotate;
     public ClickManager clickManager;
+    public PlayerInven playerInven;
 
     private Transform door;
     [SerializeField] private float shakeTime = 0.6f;
@@ -27,8 +28,16 @@ public class InteractionManager : MonoBehaviour
         objectRotate = gameObject.GetComponent<ObjectRotate>();
     }
 
-    public void Interaction()
+    public void Interaction(GameObject interactionObj)
     {
+        // 열쇠 획득
+        if (clickManager.rayHitString == "Key")
+        {
+            clickManager.ZoomOut();
+            playerInven.blueKey = true;
+            interactionObj.SetActive(false);
+        }
+
         // 교실문 상호작용
         if (clickManager.rayHitString == "Door")
         {
@@ -58,7 +67,7 @@ public class InteractionManager : MonoBehaviour
         }
 
         // 각 사물함 문 상호작용
-        else if (clickManager.rayHitString == "EachRack")
+        else if (clickManager.rayHitString == "OpenObj")
         {
             Transform eachRack = clickManager.hit.transform;
 

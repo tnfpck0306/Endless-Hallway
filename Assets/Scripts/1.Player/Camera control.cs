@@ -15,7 +15,7 @@ public class Cameracontrol : MonoBehaviour
     private void Start()
     {
         // 마우스를 화면 중간에 고정, 커서 숨김
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
