@@ -7,19 +7,17 @@ public class PlayerMovement : MonoBehaviour
 {
     public Transform[] targetPositions; // 플레이어 이동의 각 목적지
     public Transform[] doorObject;
-    public Transform cameraTransform; // 카메라 참조
-    public ObjectRotate objectRotate;
-    public ClickManager clickManager;
-
-    public float playerSpeed;
+    public Transform cameraTransform; // 카메라 위치 참조
+    public ObjectRotate objectRotate; // 오브젝트 회전 참조
+    public PlayerInven playerInven; // 플레이어 인벤토리
+    public ClickManager clickManager; // 플레이어 클릭 참조
     private string rayHitString;
-    public bool doorCheck;
-
-    public float moveSpeed = 1f; // 움직임 속도
 
     public AudioSource audioSource; // 플레이어 AudioSource
     public AudioClip footstepSound; // 플레이어 발소리 Clip
-    private bool isSprinting = false;
+
+    public float moveSpeed = 1f; // 움직임 속도
+    private bool isSprinting = false; // 플레이어 달리기 여부
 
     public enum PlayerState // 플레이어의 상태
     {
@@ -38,30 +36,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        /*
-        if (playerRotate.playerState == PlayerRotate.rotateState.Walk)
+        if (playerInven.blueKey && rayHitString == "Anomaly")
         {
-            if (playerLocation == 0)
-            {
-                Movement(1);
-            }
-            else if (playerLocation == 1 && playerRotate.cornercheck)
-            {
-                Movement(2);
-            }
-            else if (playerLocation == 2 && rayHitString == "Anomaly")
-            {
-                objectRotate.Rotation(90f, doorObject[0]);
-                objectRotate.Rotation(-90f, doorObject[1]);
-                Movement(3);
-            }
-            else if (playerLocation == 2 && rayHitString == "Normal")
-            {
-                objectRotate.Rotation(90f, doorObject[2]);
-                objectRotate.Rotation(-90f, doorObject[3]);
-                Movement(4);
-            }
-        }*/
+            objectRotate.Rotation(90f, doorObject[0]);
+            objectRotate.Rotation(-90f, doorObject[1]);
+            Movement(3);
+        }
+        else if (playerInven.blueKey && rayHitString == "Normal")
+        {
+            objectRotate.Rotation(90f, doorObject[2]);
+            objectRotate.Rotation(-90f, doorObject[3]);
+            Movement(4);
+        }
 
         PlayerMove();
 
@@ -109,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement(int target)
     {
-        transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositions[target].position, playerSpeed);
+        transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositions[target].position, 0.01f);
         Arrive(target);
     }
 
@@ -145,7 +131,6 @@ public class PlayerMovement : MonoBehaviour
         flash.GetComponent<Light>().enabled = false;
 
         transform.position = new Vector3(21.5f, 1f, 22f);
-        playerSpeed = 0.01f;
 
         if (rayHitString.Equals(GameManager.instance.stageState.ToString()))
             GameManager.instance.stage++;

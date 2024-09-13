@@ -9,12 +9,13 @@ public class InteractionManager : MonoBehaviour
     public GameObject flashLight;
     public GameObject zoomOutButton;
 
-    public Cameracontrol cameraControl;
+    public Cameracontrol cameraControl; // 카메라 움직임 참조
     private ObjectRotate objectRotate;
     public ClickManager clickManager;
     public PlayerInven playerInven;
+    public AudioManager audioManager;
+    private AudioSource audioSource;
 
-    private Transform door;
     [SerializeField] private float shakeTime = 0.6f;
     [SerializeField] private float shakeSpeed = 1.0f;
     [SerializeField] private float shakeAmount = 0.5f;
@@ -33,7 +34,7 @@ public class InteractionManager : MonoBehaviour
         // 열쇠 획득
         if (clickManager.rayHitString == "Key")
         {
-            clickManager.ZoomOut();
+            //clickManager.ZoomOut();
             playerInven.blueKey = true;
             interactionObj.SetActive(false);
         }
@@ -41,7 +42,7 @@ public class InteractionManager : MonoBehaviour
         // 교실문 상호작용
         if (clickManager.rayHitString == "Door")
         {
-            door = clickManager.hit.transform;
+            Transform door = clickManager.hit.transform;
             AudioSource doorAudio = door.GetComponent<AudioSource>();
             doorAudio.Play();
             StartCoroutine(Shack(door));
@@ -69,19 +70,23 @@ public class InteractionManager : MonoBehaviour
         // 각 사물함 문 상호작용
         else if (clickManager.rayHitString == "OpenObj")
         {
-            Transform eachRack = clickManager.hit.transform;
+            Transform openObj = clickManager.hit.transform;
 
             // 사물함 문이 닫혀 있을 경우
-            if (eachRack.localEulerAngles.y < 1f)
+            if (openObj.localEulerAngles.y < 1f)
             {
-                objectRotate.Rotation(-90f, eachRack);
-                eachRack.parent.GetComponent<AudioSource>().Play();
+                objectRotate.Rotation(-90f, openObj);
+                audioSource = openObj.parent.GetComponent<AudioSource>();
+                audioSource.clip = audioManager.preloadClips[0];
+                audioSource.Play();
             }
             // 사물함 문이 열려 있을 경우
-            else if (eachRack.localEulerAngles.y == 270f)
+            else if (openObj.localEulerAngles.y == 270f)
             {
-                objectRotate.Rotation(90f, eachRack);
-                eachRack.parent.GetComponent<AudioSource>().Play();
+                objectRotate.Rotation(90f, openObj);
+                audioSource = openObj.parent.GetComponent<AudioSource>();
+                audioSource.clip = audioManager.preloadClips[0];
+                audioSource.Play();
             }
         }
 
