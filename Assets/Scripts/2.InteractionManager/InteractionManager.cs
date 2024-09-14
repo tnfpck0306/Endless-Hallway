@@ -12,6 +12,7 @@ public class InteractionManager : MonoBehaviour
     public Cameracontrol cameraControl; // 카메라 움직임 참조
     private ObjectRotate objectRotate;
     public ClickManager clickManager;
+    public PlayerMovement playerMovement;
     public PlayerInven playerInven;
     public AudioManager audioManager;
     private AudioSource audioSource;

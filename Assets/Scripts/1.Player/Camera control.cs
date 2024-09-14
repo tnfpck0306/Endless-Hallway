@@ -7,7 +7,7 @@ public class Cameracontrol : MonoBehaviour
 {
     public GameObject Flashlight;
     public ClickManager clickManager;
-    public PlayerRotate playerRotate;
+    public PlayerMovement playerMovement;
 
     [SerializeField]private float MouseSensitivity = 400f;
     private float xRotation = 0f;
@@ -41,8 +41,6 @@ public class Cameracontrol : MonoBehaviour
     // 카메라 및 손전등 고정 위치(Zoom-In 상태일 때)
     public void Fixation(float x, float z)
     {
-        playerRotate.playerState = PlayerRotate.rotateState.Stop;
-
         float boardY = clickManager.hit.transform.rotation.eulerAngles.y;
         boardY = (boardY + 180) % 360;
         transform.rotation = Quaternion.Euler(x, boardY, z);

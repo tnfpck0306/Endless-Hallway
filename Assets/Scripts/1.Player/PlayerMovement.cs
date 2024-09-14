@@ -49,7 +49,10 @@ public class PlayerMovement : MonoBehaviour
             Movement(4);
         }
 
-        PlayerMove();
+        if(!GameManager.instance.zoomIn)
+        {
+            PlayerMove();
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
