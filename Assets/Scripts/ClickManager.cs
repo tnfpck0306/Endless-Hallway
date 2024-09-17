@@ -15,6 +15,12 @@ public class ClickManager : MonoBehaviour
     public GameObject interactionObj;
     public string rayHitString;
 
+    private void Start()
+    {
+        // 마우스를 화면 중간에 고정, 커서 숨김
+        //Cursor.lockState = CursorLockMode.Locked;
+    }
+
     private void Update()
     {
         // 마우스 왼쪽 클릭

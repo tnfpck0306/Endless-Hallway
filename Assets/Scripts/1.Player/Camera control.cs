@@ -8,26 +8,21 @@ public class Cameracontrol : MonoBehaviour
     public GameObject Flashlight;
     public ClickManager clickManager;
     public PlayerMovement playerMovement;
+    public PlayerInven playerInven;
 
     [SerializeField]private float MouseSensitivity = 400f;
     private float xRotation = 0f;
-
-    private void Start()
-    {
-        // 마우스를 화면 중간에 고정, 커서 숨김
-        //Cursor.lockState = CursorLockMode.Locked;
-    }
 
     private void Update()
     {
         if (!GameManager.instance.zoomIn) {
 
-            if (clickManager.rayHitString == "Anomaly")
+            if (clickManager.rayHitString == "Anomaly" && playerInven.blueKey)
             {
                 transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
             }
 
-            else if (clickManager.rayHitString == "Normal")
+            else if (clickManager.rayHitString == "Normal" && playerInven.blueKey)
             {
                 transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
             }

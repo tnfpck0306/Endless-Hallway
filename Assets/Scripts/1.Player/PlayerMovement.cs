@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 플레이어의 상태와 움직임을 담당하는 스크립트
+/// 이벤트에서 플레이어의 정해진 움직임 동작
+/// </summary>
 public class PlayerMovement : MonoBehaviour
 {
     public Transform[] targetPositions; // 플레이어 이동의 각 목적지
     public Transform[] doorObject;
-    public Transform cameraTransform; // 카메라 위치 참조
+    public Transform cameraTransform; // 카메라 위치
     public ObjectRotate objectRotate; // 오브젝트 회전 참조
     public PlayerInven playerInven; // 플레이어 인벤토리
-    public ClickManager clickManager; // 플레이어 클릭 참조
+    public ClickManager clickManager; // 플레이어 클릭
     private string rayHitString;
 
     public AudioSource audioSource; // 플레이어 AudioSource
@@ -36,17 +40,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (playerInven.blueKey && rayHitString == "Anomaly")
+        if (playerInven.blueKey)
         {
-            objectRotate.Rotation(90f, doorObject[0]);
-            objectRotate.Rotation(-90f, doorObject[1]);
-            Movement(3);
-        }
-        else if (playerInven.blueKey && rayHitString == "Normal")
-        {
-            objectRotate.Rotation(90f, doorObject[2]);
-            objectRotate.Rotation(-90f, doorObject[3]);
-            Movement(4);
+            if (rayHitString == "Anomaly")
+            {
+                objectRotate.Rotation(90f, doorObject[0]);
+                objectRotate.Rotation(-90f, doorObject[1]);
+                Movement(3);
+            }
+            else if (rayHitString == "Normal")
+            {
+                objectRotate.Rotation(90f, doorObject[2]);
+                objectRotate.Rotation(-90f, doorObject[3]);
+                Movement(4);
+            }
         }
 
         if(!GameManager.instance.zoomIn)
@@ -115,15 +122,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void ClickCheck()
     {
-
-        if (rayHitString == "Anomaly")
+        if (playerInven.blueKey)
         {
-            ChooseDoor(clickManager.hit);
-        }
+            if (rayHitString == "Anomaly")
+            {
+                ChooseDoor(clickManager.hit);
+            }
 
-        if (rayHitString == "Normal")
-        {
-            ChooseDoor(clickManager.hit);
+            if (rayHitString == "Normal")
+            {
+                ChooseDoor(clickManager.hit);
+            }
         }
     }
 
