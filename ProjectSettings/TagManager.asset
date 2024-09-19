@@ -12,6 +12,9 @@ TagManager:
   - Rack
   - OpenObj
   - OpenDoor
+  - OpenObj_L
+  - SlideObj_L
+  - SlideObj_R
   layers:
   - Default
   - TransparentFX

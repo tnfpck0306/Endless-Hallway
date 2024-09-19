@@ -45,8 +45,9 @@ public class InteractionManager : MonoBehaviour
         if (clickManager.rayHitString == "OpenDoor")
         {
             Transform door = clickManager.hit.transform;
+            door.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-            StartCoroutine(OpenSlide(door));
+            StartCoroutine(OpenSlide(door, 0.8f));
 
             //AudioSource doorAudio = door.GetComponent<AudioSource>();
             //doorAudio.Play();
@@ -62,7 +63,7 @@ public class InteractionManager : MonoBehaviour
         }
 
         // 게시판 상호작용
-        else if (clickManager.rayHitString == "Board")
+        if (clickManager.rayHitString == "Board")
         {
             cameraControl.Fixation(0f, 0f);
             zoomObject = clickManager.hit.transform;
@@ -70,7 +71,7 @@ public class InteractionManager : MonoBehaviour
         }
 
         // 사물함 상호작용
-        else if (clickManager.rayHitString == "Rack")
+        if (clickManager.rayHitString == "Rack")
         {
             if (!GameManager.instance.zoomIn)
             {
@@ -80,8 +81,8 @@ public class InteractionManager : MonoBehaviour
             }
         }
 
-        // 각 사물함 문 상호작용
-        else if (clickManager.rayHitString == "OpenObj")
+        // 각 사물함 문(오른쪽으로 열림) 상호작용
+        if (clickManager.rayHitString == "OpenObj")
         {
             Transform openObj = clickManager.hit.transform;
 
@@ -103,8 +104,53 @@ public class InteractionManager : MonoBehaviour
             }
         }
 
+        // 각 사물함 문(왼쪽으로 열림) 상호작용
+        if (clickManager.rayHitString == "OpenObj_L")
+        {
+            Transform openObj = clickManager.hit.transform;
+
+            // 사물함 문이 닫혀 있을 경우
+            if (openObj.localEulerAngles.y < 1f)
+            {
+                objectRotate.Rotation(90f, openObj);
+                audioSource = openObj.parent.GetComponent<AudioSource>();
+                audioSource.clip = audioManager.preloadClips[0];
+                audioSource.Play();
+            }
+            // 사물함 문이 열려 있을 경우
+            else if (openObj.localEulerAngles.y == 90f)
+            {
+                objectRotate.Rotation(-90f, openObj);
+                audioSource = openObj.parent.GetComponent<AudioSource>();
+                audioSource.clip = audioManager.preloadClips[0];
+                audioSource.Play();
+            }
+        }
+
+        // 서랍장(왼쪽으로 열리는) 상호작용
+        if (clickManager.rayHitString == "SlideObj_L")
+        {
+            Transform SlideObj = clickManager.hit.transform;
+            SlideObj.gameObject.tag = "SlideObj_R";
+            StartCoroutine(OpenSlide(SlideObj, 0.6f));
+
+            //AudioSource doorAudio = door.GetComponent<AudioSource>();
+            //doorAudio.Play();
+        }
+
+        // 서랍장(오른쪽으로 열리는) 상호작용
+        if (clickManager.rayHitString == "SlideObj_R")
+        {
+            Transform SlideObj = clickManager.hit.transform;
+            SlideObj.gameObject.tag = "SlideObj_L";
+            StartCoroutine(OpenSlide(SlideObj, -0.6f));
+
+            //AudioSource doorAudio = door.GetComponent<AudioSource>();
+            //doorAudio.Play();
+        }
+
         // 되돌아가기 버튼(Zoom-Out) 상호작용
-        else if (clickManager.rayHitString == "ZoomOut")
+        if (clickManager.rayHitString == "ZoomOut")
         {
             GameManager.instance.zoomIn = false;
             zoomOutButton.SetActive(false);
@@ -140,6 +186,7 @@ public class InteractionManager : MonoBehaviour
         flashLight.transform.position = playerCamera.transform.position;
     }
 
+    // 잠긴문 흔들기
     IEnumerator Shack(Transform targetObject)
     {
         Vector3 originalPosition = targetObject.localPosition;
@@ -158,10 +205,11 @@ public class InteractionManager : MonoBehaviour
         targetObject.localPosition = originalPosition;
     }
 
-    IEnumerator OpenSlide(Transform targetObject)
+    // 문 좌/우로 열기
+    IEnumerator OpenSlide(Transform targetObject, float distance)
     {
         Vector3 targetPosition;
-        targetPosition = new Vector3(targetObject.localPosition.x + 0.8f, targetObject.localPosition.y, targetObject.localPosition.z);
+        targetPosition = new Vector3(targetObject.localPosition.x + distance, targetObject.localPosition.y, targetObject.localPosition.z);
         
         float elapsedTime = 0.0f;
 
