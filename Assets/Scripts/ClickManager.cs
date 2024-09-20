@@ -29,13 +29,11 @@ public class ClickManager : MonoBehaviour
             RayClick();
             interactionManager.Interaction(interactionObj);
         }
-    }
-
-    // UI Zoom-out(되돌아가기) 버튼
-    public void ZoomOut()
-    {
-        rayHitString = "ZoomOut";
-        interactionManager.Interaction(interactionObj);
+        else if (Input.GetMouseButtonDown(1))
+        {
+            rayHitString = "ZoomOut";
+            interactionManager.Interaction(interactionObj);
+        }
     }
 
     private void RayClick()

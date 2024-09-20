@@ -169,7 +169,8 @@ public class InteractionManager : MonoBehaviour
         flashPosition = flashLight.transform.position; // 손전등 position 저장
 
         GameManager.instance.zoomIn = true;
-        zoomOutButton.SetActive(true);
+        playerMovement.playerState = PlayerMovement.PlayerState.Stop; // 플레이어 상태 정지
+        zoomOutButton.SetActive(true); // 버튼 생성
         target.GetComponent<BoxCollider>().enabled = false;
 
         // 오브젝트의 rotation에 따른 카메라의 위치

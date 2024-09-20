@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Walk, // 걷는 시점
         Stop, // 정지 시점
+        Limit, // 움직임 제한
         ZoomIn // 확대 시점
     }
 
@@ -136,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // 문 선택
     public void ChooseDoor(RaycastHit hit)
     {
         GameObject flash = transform.Find("Spot Light").gameObject;
@@ -144,10 +146,17 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = new Vector3(21.5f, 1f, 22f);
 
+        // 정답인 경우
         if (rayHitString.Equals(GameManager.instance.stageState.ToString()))
-            GameManager.instance.stage++;
+        {
+            GameManager.instance.stage++; // 스테이지 증가
+            GameManager.instance.anomalyData.Remove(GameManager.instance.anomalyNum);
+        }
+
+        // 오답인 경우
         else
         {
+            // 스테이지 초기화(0스테이지 부터)
             GameManager.instance.stage = 0;
             GameManager.instance.randStage_max = 5;
         }
