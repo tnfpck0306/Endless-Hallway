@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
     {
         zoomIn = false;
         stageState = StageState.Normal;
-        //randStage = 4;
         randStage_max = 5;
         stage = 0;
 
@@ -63,6 +62,7 @@ public class GameManager : MonoBehaviour
         anomalyNum = 0;
     }
 
+    // 스테이지 상태 설정
     public void GetStageState()
     {
         randStage = Random.Range(0, randStage_max);
@@ -90,6 +90,27 @@ public class GameManager : MonoBehaviour
                     randStage_max++;
                 }
             }
+        }
+    }
+
+    // 정답비교
+    public void CompareAns(string choice)
+    {
+        // 정답인 경우
+        if (choice.Equals(stageState.ToString()))
+        {
+            stage++; // 스테이지 증가
+            anomalyData.Remove(GameManager.instance.anomalyNum);
+        }
+
+        // 오답인 경우
+        else
+        {
+            // 스테이지 초기화(0스테이지 부터)
+            stage = 0;
+            randStage_max = 5;
+            anomalyData = new List<int>(anomaly.anomalyList);
+            anomalyNum = 0;
         }
     }
 

@@ -146,24 +146,8 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = new Vector3(21.5f, 1f, 22f);
 
-        // 정답인 경우
-        if (rayHitString.Equals(GameManager.instance.stageState.ToString()))
-        {
-            GameManager.instance.stage++; // 스테이지 증가
-            GameManager.instance.anomalyData.Remove(GameManager.instance.anomalyNum);
-        }
-
-        // 오답인 경우
-        else
-        {
-            // 스테이지 초기화(0스테이지 부터)
-            GameManager.instance.stage = 0;
-            GameManager.instance.randStage_max = 5;
-        }
-
+        GameManager.instance.CompareAns(rayHitString);
         GameManager.instance.GetStageState();
 
-        //fadeControl.FadeOut();
-        //fadeControl.RegisterCallback(PlayerReturn);
     }
 }
