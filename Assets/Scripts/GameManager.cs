@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
     public StageState stageState;
     public Anomaly anomaly;
 
-    public bool zoomIn;
     public int randStage; // 이상현상 확률
     public int randStage_max;
     public int stage;
@@ -53,7 +52,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        zoomIn = false;
         stageState = StageState.Normal;
         randStage_max = 5;
         stage = 0;

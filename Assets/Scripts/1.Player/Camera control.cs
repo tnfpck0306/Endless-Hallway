@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class Cameracontrol : MonoBehaviour
@@ -15,7 +13,7 @@ public class Cameracontrol : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.instance.zoomIn) {
+        if (playerMovement.playerState != PlayerMovement.PlayerState.Limit) {
 
             if (clickManager.rayHitString == "Anomaly" && playerInven.blueKey)
             {

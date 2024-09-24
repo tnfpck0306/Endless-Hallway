@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
         Walk, // 걷는 시점
         Stop, // 정지 시점
         Limit, // 움직임 제한
-        ZoomIn // 확대 시점
     }
 
     public PlayerState playerState;
@@ -41,25 +40,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (playerInven.blueKey)
+        // 플레이어 움직임 제한상태가 아닐 때
+        if(playerState != PlayerState.Limit)
         {
-            if (rayHitString == "Anomaly")
-            {
-                objectRotate.Rotation(90f, doorObject[0]);
-                objectRotate.Rotation(-90f, doorObject[1]);
-                Movement(3);
-            }
-            else if (rayHitString == "Normal")
-            {
-                objectRotate.Rotation(90f, doorObject[2]);
-                objectRotate.Rotation(-90f, doorObject[3]);
-                Movement(4);
-            }
-        }
-
-        if(!GameManager.instance.zoomIn)
-        {
-            PlayerMove();
+            PlayerMove(); // 플레이어 이동
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -67,8 +51,27 @@ public class PlayerMovement : MonoBehaviour
             rayHitString = clickManager.rayHitString;
             ClickCheck();
         }
+
+        if (playerInven.blueKey)
+        {
+            if (rayHitString == "Anomaly")
+            {
+                playerState = PlayerState.Limit;
+                objectRotate.Rotation(90f, doorObject[0]);
+                objectRotate.Rotation(-90f, doorObject[1]);
+                Movement(3);
+            }
+            else if (rayHitString == "Normal")
+            {
+                playerState = PlayerState.Limit;
+                objectRotate.Rotation(90f, doorObject[2]);
+                objectRotate.Rotation(-90f, doorObject[3]);
+                Movement(4);
+            }
+        }
     }
 
+    // 플레이어 움직임
     private void PlayerMove()
     {
         // 입력값 받기
@@ -85,29 +88,18 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position += movement.normalized * currentSpeed * Time.deltaTime;
 
-        // 움직임이 있을 때
-        if(movement.magnitude > 0)
-        {
-            audioSource.pitch = isSprinting ? 1.5f : 1f;
-
-            playerState = PlayerState.Walk;
-            if(!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
-        }
-        // 움직임이 없을 때
-        else
-        {
-            playerState = PlayerState.Stop;
-            audioSource.Stop();
-        }
+        StepSound(movement);
     }
 
     private void Movement(int target)
     {
-        transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositions[target].position, 0.01f);
+        transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositions[target].position, moveSpeed * Time.deltaTime);
         Arrive(target);
+
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
     }
 
     private void Arrive(int target)
@@ -118,6 +110,28 @@ public class PlayerMovement : MonoBehaviour
             if(target == 3 || target == 4)
                 SceneManager.LoadScene("Endless Hallway01");
 
+        }
+    }
+
+    // 발소리
+    private void StepSound(Vector3 movement)
+    {
+        // 움직임이 있을 때
+        if (movement.magnitude > 0)
+        {
+            audioSource.pitch = isSprinting ? 1.5f : 1f;
+
+            playerState = PlayerState.Walk;
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        // 움직임이 없을 때
+        else
+        {
+            playerState = PlayerState.Stop;
+            audioSource.Stop();
         }
     }
 

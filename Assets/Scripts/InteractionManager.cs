@@ -22,7 +22,8 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private float shakeSpeed = 1.0f;
     [SerializeField] private float shakeAmount = 0.5f;
 
-    private Transform zoomObject;
+    private Transform TargetObject;
+    private AudioSource TargetAudio;
     private Vector3 cameraPosition; // Zoom-In 이전 카메라 위치
     private Vector3 flashPosition; // Zoom-In 이전 손전등 위치
 
@@ -33,131 +34,114 @@ public class InteractionManager : MonoBehaviour
 
     public void Interaction(GameObject interactionObj)
     {
-        // 열쇠 획득
-        if (clickManager.rayHitString == "Key")
+        switch (clickManager.rayHitString)
         {
-            //clickManager.ZoomOut();
-            playerInven.blueKey = true;
-            interactionObj.SetActive(false);
-        }
+            // 열쇠 획득
+            case "Key":
+                playerInven.blueKey = true;
+                interactionObj.SetActive(false);
+                break;
 
-        // 교실문(열리는) 상호작용
-        if (clickManager.rayHitString == "OpenDoor")
-        {
-            Transform door = clickManager.hit.transform;
-            door.gameObject.GetComponent<BoxCollider>().enabled = false;
+            // 교실문(열리는) 상호작용
+            case "OpenDoor":
+                TargetObject = clickManager.hit.transform;
+                TargetObject.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-            StartCoroutine(OpenSlide(door, 0.8f));
+                StartCoroutine(OpenSlide(TargetObject, 0.8f));
 
-            //AudioSource doorAudio = door.GetComponent<AudioSource>();
-            //doorAudio.Play();
-        }
+                TargetAudio = TargetObject.GetComponent<AudioSource>();
+                TargetAudio.Play();
+                break;
 
-        // 교실문(잠겨있는) 상호작용
-        if (clickManager.rayHitString == "Door")
-        {
-            Transform door = clickManager.hit.transform;
-            AudioSource doorAudio = door.GetComponent<AudioSource>();
-            doorAudio.Play();
-            StartCoroutine(Shack(door));
-        }
+            // 교실문(잠겨있는) 상호작용
+            case "Door":
+                TargetObject = clickManager.hit.transform;
+                TargetAudio = TargetObject.GetComponent<AudioSource>();
+                TargetAudio.Play();
+                StartCoroutine(Shack(TargetObject));
+                break;
 
-        // 게시판 상호작용
-        if (clickManager.rayHitString == "Board")
-        {
-            cameraControl.Fixation(0f, 0f);
-            zoomObject = clickManager.hit.transform;
-            ZoomIn(zoomObject, 1.3f, 0f);
-        }
+            // 게시판 상호작용
+            case "Board":
+                playerMovement.audioSource.Stop();
+                cameraControl.Fixation(0f, 0f);
+                TargetObject = clickManager.hit.transform;
+                ZoomIn(TargetObject, 1.3f, 0f);
+                break;
 
-        // 사물함 상호작용
-        if (clickManager.rayHitString == "Rack")
-        {
-            if (!GameManager.instance.zoomIn)
-            {
-                cameraControl.Fixation(20f, 0f);
-                zoomObject = clickManager.hit.transform;
-                ZoomIn(zoomObject, 1.3f, 1.0f);
-            }
-        }
+            // 각 사물함 문(오른쪽으로 열림) 상호작용
+            case "OpenObj":
+                TargetObject = clickManager.hit.transform;
 
-        // 각 사물함 문(오른쪽으로 열림) 상호작용
-        if (clickManager.rayHitString == "OpenObj")
-        {
-            Transform openObj = clickManager.hit.transform;
+                // 사물함 문이 닫혀 있을 경우
+                if (TargetObject.localEulerAngles.y < 1f)
+                {
+                    objectRotate.Rotation(-90f, TargetObject);
+                    audioSource = TargetObject.parent.GetComponent<AudioSource>();
+                    audioSource.clip = audioManager.preloadClips[0];
+                    audioSource.Play();
+                }
+                // 사물함 문이 열려 있을 경우
+                else if (TargetObject.localEulerAngles.y == 270f)
+                {
+                    objectRotate.Rotation(90f, TargetObject);
+                    audioSource = TargetObject.parent.GetComponent<AudioSource>();
+                    audioSource.clip = audioManager.preloadClips[0];
+                    audioSource.Play();
+                }
+                break;
 
-            // 사물함 문이 닫혀 있을 경우
-            if (openObj.localEulerAngles.y < 1f)
-            {
-                objectRotate.Rotation(-90f, openObj);
-                audioSource = openObj.parent.GetComponent<AudioSource>();
-                audioSource.clip = audioManager.preloadClips[0];
-                audioSource.Play();
-            }
-            // 사물함 문이 열려 있을 경우
-            else if (openObj.localEulerAngles.y == 270f)
-            {
-                objectRotate.Rotation(90f, openObj);
-                audioSource = openObj.parent.GetComponent<AudioSource>();
-                audioSource.clip = audioManager.preloadClips[0];
-                audioSource.Play();
-            }
-        }
+            // 각 사물함 문(왼쪽으로 열림) 상호작용
+            case "OpenObj_L":
+                TargetObject = clickManager.hit.transform;
 
-        // 각 사물함 문(왼쪽으로 열림) 상호작용
-        if (clickManager.rayHitString == "OpenObj_L")
-        {
-            Transform openObj = clickManager.hit.transform;
+                // 사물함 문이 닫혀 있을 경우
+                if (TargetObject.localEulerAngles.y < 1f)
+                {
+                    objectRotate.Rotation(90f, TargetObject);
+                    audioSource = TargetObject.parent.GetComponent<AudioSource>();
+                    audioSource.clip = audioManager.preloadClips[0];
+                    audioSource.Play();
+                }
+                // 사물함 문이 열려 있을 경우
+                else if (TargetObject.localEulerAngles.y == 90f)
+                {
+                    objectRotate.Rotation(-90f, TargetObject);
+                    audioSource = TargetObject.parent.GetComponent<AudioSource>();
+                    audioSource.clip = audioManager.preloadClips[0];
+                    audioSource.Play();
+                }
+                break;
 
-            // 사물함 문이 닫혀 있을 경우
-            if (openObj.localEulerAngles.y < 1f)
-            {
-                objectRotate.Rotation(90f, openObj);
-                audioSource = openObj.parent.GetComponent<AudioSource>();
-                audioSource.clip = audioManager.preloadClips[0];
-                audioSource.Play();
-            }
-            // 사물함 문이 열려 있을 경우
-            else if (openObj.localEulerAngles.y == 90f)
-            {
-                objectRotate.Rotation(-90f, openObj);
-                audioSource = openObj.parent.GetComponent<AudioSource>();
-                audioSource.clip = audioManager.preloadClips[0];
-                audioSource.Play();
-            }
-        }
+            // 서랍장(왼쪽으로 열리는) 상호작용
+            case "SlideObj_L":
+                TargetObject = clickManager.hit.transform;
+                TargetObject.gameObject.tag = "SlideObj_R";
+                StartCoroutine(OpenSlide(TargetObject, 0.6f));
 
-        // 서랍장(왼쪽으로 열리는) 상호작용
-        if (clickManager.rayHitString == "SlideObj_L")
-        {
-            Transform SlideObj = clickManager.hit.transform;
-            SlideObj.gameObject.tag = "SlideObj_R";
-            StartCoroutine(OpenSlide(SlideObj, 0.6f));
+                //audioSource = TargetObject.GetComponent<AudioSource>();
+                //audioSource.Play();
+                break;
 
-            //AudioSource doorAudio = door.GetComponent<AudioSource>();
-            //doorAudio.Play();
-        }
+            // 서랍장(오른쪽으로 열리는) 상호작용
+            case "SlideObj_R":
+                TargetObject = clickManager.hit.transform;
+                TargetObject.gameObject.tag = "SlideObj_L";
+                StartCoroutine(OpenSlide(TargetObject, -0.6f));
 
-        // 서랍장(오른쪽으로 열리는) 상호작용
-        if (clickManager.rayHitString == "SlideObj_R")
-        {
-            Transform SlideObj = clickManager.hit.transform;
-            SlideObj.gameObject.tag = "SlideObj_L";
-            StartCoroutine(OpenSlide(SlideObj, -0.6f));
+                //audioSource = TargetObject.GetComponent<AudioSource>();
+                //audioSource.Play();
+                break;
 
-            //AudioSource doorAudio = door.GetComponent<AudioSource>();
-            //doorAudio.Play();
-        }
+            // 되돌아가기 버튼(Zoom-Out) 상호작용
+            case "ZoomOut":
+                playerMovement.playerState = PlayerMovement.PlayerState.Stop;
+                zoomOutButton.SetActive(false);
+                TargetObject.GetComponent<BoxCollider>().enabled = true;
 
-        // 되돌아가기 버튼(Zoom-Out) 상호작용
-        if (clickManager.rayHitString == "ZoomOut")
-        {
-            GameManager.instance.zoomIn = false;
-            zoomOutButton.SetActive(false);
-            zoomObject.GetComponent<BoxCollider>().enabled = true;
-
-            playerCamera.transform.position = cameraPosition;
-            flashLight.transform.position = flashPosition;
+                playerCamera.transform.position = cameraPosition;
+                flashLight.transform.position = flashPosition;
+                break;
         }
 
     }
@@ -168,8 +152,7 @@ public class InteractionManager : MonoBehaviour
         cameraPosition = playerCamera.transform.position; // 카메라 position 저장
         flashPosition = flashLight.transform.position; // 손전등 position 저장
 
-        GameManager.instance.zoomIn = true;
-        playerMovement.playerState = PlayerMovement.PlayerState.Stop; // 플레이어 상태 정지
+        playerMovement.playerState = PlayerMovement.PlayerState.Limit;
         zoomOutButton.SetActive(true); // 버튼 생성
         target.GetComponent<BoxCollider>().enabled = false;
 
@@ -216,7 +199,7 @@ public class InteractionManager : MonoBehaviour
 
         while (elapsedTime < 1f)
         {
-            elapsedTime += Time.deltaTime * 0.6f;
+            elapsedTime += Time.deltaTime * 0.4f;
             targetObject.localPosition = Vector3.Lerp(targetObject.localPosition, targetPosition, elapsedTime);
 
             yield return null;

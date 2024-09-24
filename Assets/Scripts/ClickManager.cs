@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 마우스 클릭을 통해 오브젝트 테그를 인식하고 다른 스크립트들에게 알리는 역할
@@ -23,12 +21,17 @@ public class ClickManager : MonoBehaviour
 
     private void Update()
     {
-        // 마우스 왼쪽 클릭
+        // 마우스 좌클릭
         if (Input.GetMouseButtonDown(0))
         {
             RayClick();
-            interactionManager.Interaction(interactionObj);
+            if (rayHitString != "Untagged")
+            {
+                Debug.Log(rayHitString);
+                interactionManager.Interaction(interactionObj);
+            }
         }
+        // 마우스 우클릭
         else if (Input.GetMouseButtonDown(1))
         {
             rayHitString = "ZoomOut";
@@ -44,7 +47,6 @@ public class ClickManager : MonoBehaviour
         {
             interactionObj = hit.transform.gameObject;
             rayHitString = interactionObj.tag;
-            Debug.Log(rayHitString);
         }
 
     }
