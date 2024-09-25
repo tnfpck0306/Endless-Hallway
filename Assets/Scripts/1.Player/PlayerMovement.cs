@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
         Stop, // 정지 시점
         Limit, // 움직임 제한
     }
-
     public PlayerState playerState;
 
     private void Start()
@@ -46,32 +46,25 @@ public class PlayerMovement : MonoBehaviour
             PlayerMove(); // 플레이어 이동
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            rayHitString = clickManager.rayHitString;
-            ClickCheck();
-        }
-
-        if (playerInven.blueKey)
-        {
-            if (rayHitString == "Anomaly")
-            {
-                playerState = PlayerState.Limit;
-                objectRotate.Rotation(90f, doorObject[0]);
-                objectRotate.Rotation(-90f, doorObject[1]);
-                Movement(3);
-            }
-            else if (rayHitString == "Normal")
-            {
-                playerState = PlayerState.Limit;
-                objectRotate.Rotation(90f, doorObject[2]);
-                objectRotate.Rotation(-90f, doorObject[3]);
-                Movement(4);
-            }
-        }
     }
 
-    // 플레이어 움직임
+    // 정답 선택시(이상현상 문) 플레이어 이동
+    public void MoveAnomalyHall()
+    {
+        objectRotate.Rotation(90f, doorObject[0]);
+        objectRotate.Rotation(-90f, doorObject[1]);
+        StartCoroutine(Movement(3));
+    }
+
+    // 정답 선택시(일반 문) 플레이어 이동
+    public void MoveNormalHall()
+    {
+        objectRotate.Rotation(90f, doorObject[2]);
+        objectRotate.Rotation(-90f, doorObject[3]);
+        StartCoroutine(Movement(4));
+    }
+
+    // 플레이어 조종 움직임
     private void PlayerMove()
     {
         // 입력값 받기
@@ -91,25 +84,26 @@ public class PlayerMovement : MonoBehaviour
         StepSound(movement);
     }
 
-    private void Movement(int target)
+    // 플레이어 정답 선택시 움직임
+    IEnumerator Movement(int target)
     {
-        transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositions[target].position, moveSpeed * Time.deltaTime);
-        Arrive(target);
-
-        if (!audioSource.isPlaying)
+        while (true)
         {
-            audioSource.Play();
-        }
-    }
+            transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositions[target].position, moveSpeed * Time.deltaTime);
 
-    private void Arrive(int target)
-    {
-        if (Vector3.Distance(transform.position, targetPositions[target].position) == 0)
-        {
-            
-            if(target == 3 || target == 4)
-                SceneManager.LoadScene("Endless Hallway01");
+            if (Vector3.Distance(transform.position, targetPositions[target].position) == 0)
+            {
 
+                if (target == 3 || target == 4)
+                    SceneManager.LoadScene("Endless Hallway01");
+            }
+
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+
+            yield return null;
         }
     }
 
@@ -133,35 +127,5 @@ public class PlayerMovement : MonoBehaviour
             playerState = PlayerState.Stop;
             audioSource.Stop();
         }
-    }
-
-    private void ClickCheck()
-    {
-        if (playerInven.blueKey)
-        {
-            if (rayHitString == "Anomaly")
-            {
-                ChooseDoor(clickManager.hit);
-            }
-
-            if (rayHitString == "Normal")
-            {
-                ChooseDoor(clickManager.hit);
-            }
-        }
-    }
-
-    // 문 선택
-    public void ChooseDoor(RaycastHit hit)
-    {
-        GameObject flash = transform.Find("Spot Light").gameObject;
-        flash.GetComponent<AudioSource>().Play();
-        flash.GetComponent<Light>().enabled = false;
-
-        transform.position = new Vector3(21.5f, 1f, 22f);
-
-        GameManager.instance.CompareAns(rayHitString);
-        GameManager.instance.GetStageState();
-
     }
 }

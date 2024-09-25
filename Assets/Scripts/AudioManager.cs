@@ -9,6 +9,4 @@ public class AudioManager : MonoBehaviour
     // 사전에 미리 로드하여 사용할 클립들
     public AudioClip[] preloadClips;
 
-
-    
 }

@@ -27,14 +27,20 @@ public class InteractionManager : MonoBehaviour
     private Vector3 cameraPosition; // Zoom-In 이전 카메라 위치
     private Vector3 flashPosition; // Zoom-In 이전 손전등 위치
 
+    private float time; // 시간 측정
+
     public void Start()
     {
         objectRotate = gameObject.GetComponent<ObjectRotate>();
+        
+        time = 0;
+        StartCoroutine(CheckTime());
     }
 
     public void Interaction(GameObject interactionObj)
     {
-        switch (clickManager.rayHitString)
+        string targetTag = clickManager.rayHitString;
+        switch (targetTag)
         {
             // 열쇠 획득
             case "Key":
@@ -47,7 +53,7 @@ public class InteractionManager : MonoBehaviour
                 TargetObject = clickManager.hit.transform;
                 TargetObject.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-                StartCoroutine(OpenSlide(TargetObject, 0.8f));
+                StartCoroutine(OpenSlide(TargetObject, 0.8f, "OpenDoor"));
 
                 TargetAudio = TargetObject.GetComponent<AudioSource>();
                 TargetAudio.Play();
@@ -116,21 +122,27 @@ public class InteractionManager : MonoBehaviour
             // 서랍장(왼쪽으로 열리는) 상호작용
             case "SlideObj_L":
                 TargetObject = clickManager.hit.transform;
-                TargetObject.gameObject.tag = "SlideObj_R";
-                StartCoroutine(OpenSlide(TargetObject, 0.6f));
+                TargetObject.gameObject.tag = "Untagged";
+                StartCoroutine(OpenSlide(TargetObject, 0.6f, "SlideObj_R"));
 
-                //audioSource = TargetObject.GetComponent<AudioSource>();
-                //audioSource.Play();
+                audioSource = TargetObject.parent.GetComponent<AudioSource>();
+                audioSource.clip = audioManager.preloadClips[1];
+                audioSource.Play();
+
+                StartCoroutine(CheckTime());
                 break;
 
             // 서랍장(오른쪽으로 열리는) 상호작용
             case "SlideObj_R":
                 TargetObject = clickManager.hit.transform;
-                TargetObject.gameObject.tag = "SlideObj_L";
-                StartCoroutine(OpenSlide(TargetObject, -0.6f));
+                TargetObject.gameObject.tag = "Untagged";
+                StartCoroutine(OpenSlide(TargetObject, -0.6f, "SlideObj_L"));
 
-                //audioSource = TargetObject.GetComponent<AudioSource>();
-                //audioSource.Play();
+                audioSource = TargetObject.parent.GetComponent<AudioSource>();
+                audioSource.clip = audioManager.preloadClips[1];
+                audioSource.Play();
+
+                StartCoroutine(CheckTime());
                 break;
 
             // 되돌아가기 버튼(Zoom-Out) 상호작용
@@ -142,8 +154,42 @@ public class InteractionManager : MonoBehaviour
                 playerCamera.transform.position = cameraPosition;
                 flashLight.transform.position = flashPosition;
                 break;
+
+            // 정답 선택 - 이상현상 문 상호작용
+            case "Anomaly":
+                if (playerInven.blueKey)
+                {
+                    playerMovement.playerState = PlayerMovement.PlayerState.Limit;
+                    ChooseDoor(targetTag);
+                    playerMovement.MoveAnomalyHall();
+                    cameraControl.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                }
+                break;
+
+            // 정답 선택 - 일반 문 상호작용
+            case "Normal":
+                if (playerInven.blueKey)
+                {
+                    playerMovement.playerState = PlayerMovement.PlayerState.Limit;
+                    ChooseDoor(targetTag);
+                    playerMovement.MoveNormalHall();
+                    cameraControl.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+                }
+                break;
         }
 
+    }
+
+    IEnumerator CheckTime()
+    {
+        time = 0;
+
+        while (time < 8.0f)
+        {
+            time += Time.deltaTime;
+
+            yield return null;
+        }
     }
 
     // 오브젝트에 Zoom-In(타겟오브젝트, x/z축 거리, y축 거리)
@@ -190,7 +236,7 @@ public class InteractionManager : MonoBehaviour
     }
 
     // 문 좌/우로 열기
-    IEnumerator OpenSlide(Transform targetObject, float distance)
+    IEnumerator OpenSlide(Transform targetObject, float distance, string stateTag)
     {
         Vector3 targetPosition;
         targetPosition = new Vector3(targetObject.localPosition.x + distance, targetObject.localPosition.y, targetObject.localPosition.z);
@@ -199,10 +245,25 @@ public class InteractionManager : MonoBehaviour
 
         while (elapsedTime < 1f)
         {
-            elapsedTime += Time.deltaTime * 0.4f;
+            elapsedTime += Time.deltaTime * 0.3f;
             targetObject.localPosition = Vector3.Lerp(targetObject.localPosition, targetPosition, elapsedTime);
 
             yield return null;
         }
+
+        targetObject.gameObject.tag = stateTag;
+    }
+
+    // 문 선택(이상현상, 일반 - 정답 선택)
+    public void ChooseDoor(string targetTag)
+    {
+        flashLight.GetComponent<AudioSource>().Play();
+        flashLight.GetComponent<Light>().enabled = false;
+
+        playerMovement.transform.position = new Vector3(21.5f, 1f, 22f);
+
+        GameManager.instance.CompareAns(targetTag);
+        GameManager.instance.GetStageState();
+
     }
 }

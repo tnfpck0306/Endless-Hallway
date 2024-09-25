@@ -7,6 +7,7 @@ using UnityEngine;
 public class ClickManager : MonoBehaviour
 {
     public InteractionManager interactionManager;
+    public GameObject player;
 
     public Ray ray;
     public RaycastHit hit;
@@ -25,7 +26,9 @@ public class ClickManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RayClick();
-            if (rayHitString != "Untagged")
+            float distance = Vector3.Distance(player.transform.position, interactionObj.transform.position);
+
+            if (rayHitString != "Untagged" && distance < 4.0f)
             {
                 Debug.Log(rayHitString);
                 interactionManager.Interaction(interactionObj);

@@ -14,19 +14,7 @@ public class Cameracontrol : MonoBehaviour
     private void Update()
     {
         if (playerMovement.playerState != PlayerMovement.PlayerState.Limit) {
-
-            if (clickManager.rayHitString == "Anomaly" && playerInven.blueKey)
-            {
-                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-            }
-
-            else if (clickManager.rayHitString == "Normal" && playerInven.blueKey)
-            {
-                transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
-            }
-            
-            else
-                Rotate();
+            Rotate();
         }
 
     }
