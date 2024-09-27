@@ -151,6 +151,7 @@ public class InteractionManager : MonoBehaviour
                 zoomOutButton.SetActive(false);
                 TargetObject.GetComponent<BoxCollider>().enabled = true;
 
+                cameraControl.camera.fieldOfView = 60f;
                 playerCamera.transform.position = cameraPosition;
                 flashLight.transform.position = flashPosition;
                 break;

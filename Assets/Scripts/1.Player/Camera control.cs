@@ -8,8 +8,15 @@ public class Cameracontrol : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerInven playerInven;
 
+    public Camera camera;
+
     [SerializeField]private float MouseSensitivity = 400f;
     private float xRotation = 0f;
+
+    private void Awake()
+    {
+        camera = GetComponent<Camera>();
+    }
 
     private void Update()
     {
@@ -22,6 +29,8 @@ public class Cameracontrol : MonoBehaviour
     // 카메라 및 손전등 고정 위치(Zoom-In 상태일 때)
     public void Fixation(float x, float z)
     {
+        camera.fieldOfView = 30f; // 시야각 조정
+
         float boardY = clickManager.hit.transform.rotation.eulerAngles.y;
         boardY = (boardY + 180) % 360;
         transform.rotation = Quaternion.Euler(x, boardY, z);
