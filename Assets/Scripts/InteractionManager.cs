@@ -147,13 +147,16 @@ public class InteractionManager : MonoBehaviour
 
             // 되돌아가기 버튼(Zoom-Out) 상호작용
             case "ZoomOut":
-                playerMovement.playerState = PlayerMovement.PlayerState.Stop;
-                zoomOutButton.SetActive(false);
-                TargetObject.GetComponent<BoxCollider>().enabled = true;
+                if (playerMovement.playerState == PlayerMovement.PlayerState.Limit)
+                {
+                    playerMovement.playerState = PlayerMovement.PlayerState.Stop;
+                    zoomOutButton.SetActive(false);
+                    TargetObject.GetComponent<BoxCollider>().enabled = true;
 
-                cameraControl.camera.fieldOfView = 60f;
-                playerCamera.transform.position = cameraPosition;
-                flashLight.transform.position = flashPosition;
+                    cameraControl.camera.fieldOfView = 60f;
+                    playerCamera.transform.position = cameraPosition;
+                    flashLight.transform.position = flashPosition;
+                }
                 break;
 
             // 정답 선택 - 이상현상 문 상호작용
