@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager m_instance;
 
+    // 스테이지 상태(일반, 이상현상)
     public enum StageState
     {
         Normal,
@@ -32,8 +33,8 @@ public class GameManager : MonoBehaviour
     public StageState stageState;
     public Anomaly anomaly;
 
-    public int randStage; // 이상현상 확률
-    public int randStage_max;
+    private int randStage; // 이상현상 확률
+    private int randStage_max;
     public int stage;
 
     public List<int> anomalyData;

@@ -13,6 +13,7 @@ public class InteractionManager : MonoBehaviour
     public Cameracontrol cameraControl; // 카메라 움직임 참조
     private ObjectRotate objectRotate;
     public ClickManager clickManager;
+    public AnomalyManager anomalyManager;
     public PlayerMovement playerMovement;
     public PlayerInven playerInven;
     public AudioManager audioManager;
@@ -143,6 +144,10 @@ public class InteractionManager : MonoBehaviour
                 audioSource.Play();
 
                 StartCoroutine(CheckTime());
+                break;
+
+            case "HideDoll":
+                anomalyManager.FindeDoll(GameManager.instance.anomalyNum);
                 break;
 
             // 되돌아가기 버튼(Zoom-Out) 상호작용
