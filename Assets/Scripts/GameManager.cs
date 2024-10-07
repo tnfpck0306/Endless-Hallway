@@ -35,7 +35,8 @@ public class GameManager : MonoBehaviour
 
     private int randStage; // 이상현상 확률
     private int randStage_max;
-    public int stage;
+    public int stage; // 게임 스테이지
+    public bool condition; // 게임 조건 충족 여부 확인
 
     public List<int> anomalyData;
     public int anomalyNum; // 이상현상 종류
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
         stageState = StageState.Normal;
         randStage_max = 5;
         stage = 0;
+        condition = true;
 
         anomalyData = new List<int>(anomaly.anomalyList);
         anomalyNum = 0;
@@ -96,7 +98,7 @@ public class GameManager : MonoBehaviour
     public void CompareAns(string choice)
     {
         // 정답인 경우
-        if (choice.Equals(stageState.ToString()))
+        if (choice.Equals(stageState.ToString()) && condition)
         {
             stage++; // 스테이지 증가
             anomalyData.Remove(GameManager.instance.anomalyNum);
@@ -106,6 +108,7 @@ public class GameManager : MonoBehaviour
         else
         {
             // 스테이지 초기화(0스테이지 부터)
+            condition = true;
             stage = 0;
             randStage_max = 5;
             anomalyData = new List<int>(anomaly.anomalyList);

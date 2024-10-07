@@ -263,7 +263,7 @@ public class InteractionManager : MonoBehaviour
         targetObject.gameObject.tag = stateTag;
     }
 
-    // 문 선택(이상현상, 일반 - 정답 선택)
+    // 문 선택(이상현상과 일반 중 정답 선택)
     public void ChooseDoor(string targetTag)
     {
         flashLight.GetComponent<AudioSource>().Play();

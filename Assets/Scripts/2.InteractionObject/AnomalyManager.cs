@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnomalyManager : MonoBehaviour
 {
     public GameObject[] exitLight; // 탈출구 지시등
-    public GameObject[] doll; // 인형
+    public GameObject[] doll; // 인형(0. 빨강/1. 파랑/)
     public GameObject[] hideDoll; // 숨은 인형
     public GameObject fireExting; // 소화기
 
@@ -27,11 +27,20 @@ public class AnomalyManager : MonoBehaviour
                 break;
 
             case 2:
-                doll[0].SetActive(false);
-                hideDoll[0].SetActive(true);
+                HideDoll(0);
                 fireExting.SetActive(false);
                 break;
+
+            case 3:
+                HideDoll(1);
+                break;
         }
+    }
+
+    private void HideDoll(int dollNum)
+    {
+        doll[dollNum].SetActive(false);
+        hideDoll[dollNum].SetActive(true);
     }
 
     public void FindeDoll(int anomalyNum)
@@ -41,6 +50,11 @@ public class AnomalyManager : MonoBehaviour
             case 2:
                 doll[0].SetActive(true);
                 hideDoll[0].SetActive(false);
+                break;
+
+            case 3:
+                doll[1].SetActive(true);
+                hideDoll[1].SetActive(false);
                 break;
         }
     }
