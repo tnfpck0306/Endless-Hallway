@@ -34,17 +34,35 @@ public class AnomalyManager : MonoBehaviour
             case 3:
                 HideDoll(1);
                 break;
+
+            case 4:
+                HideDoll(2);
+                break;
+
+            case 5:
+                HideDoll(3);
+                break;
+
+            case 6:
+                HideDoll(4);
+                break;
+
+            case 7:
+                HideDoll(5);
+                break;
         }
     }
 
     private void HideDoll(int dollNum)
     {
+        GameManager.instance.condition = false;
         doll[dollNum].SetActive(false);
         hideDoll[dollNum].SetActive(true);
     }
 
     public void FindeDoll(int anomalyNum)
     {
+        GameManager.instance.condition = true;
         switch (anomalyNum)
         {
             case 2:
@@ -56,6 +74,27 @@ public class AnomalyManager : MonoBehaviour
                 doll[1].SetActive(true);
                 hideDoll[1].SetActive(false);
                 break;
+
+            case 4:
+                doll[2].SetActive(true);
+                hideDoll[2].SetActive(false);
+                break;
+
+            case 5:
+                doll[3].SetActive(true);
+                hideDoll[3].SetActive(false);
+                break;
+
+            case 6:
+                doll[4].SetActive(true);
+                hideDoll[4].SetActive(false);
+                break;
+
+            case 7:
+                doll[5].SetActive(true);
+                hideDoll[5].SetActive(false);
+                break;
+
         }
     }
 }
