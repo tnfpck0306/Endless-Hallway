@@ -8,6 +8,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject[] doll; // 인형(0. 빨강/1. 파랑/)
     public GameObject[] hideDoll; // 숨은 인형
     public GameObject fireExting; // 소화기
+    public GameObject palmTrigger; // 손바닥 이벤트 트리거
 
     private void Start()
     {
@@ -49,6 +50,10 @@ public class AnomalyManager : MonoBehaviour
 
             case 7:
                 HideDoll(5);
+                break;
+            
+            case 8:
+                palmTrigger.SetActive(true);
                 break;
         }
     }
