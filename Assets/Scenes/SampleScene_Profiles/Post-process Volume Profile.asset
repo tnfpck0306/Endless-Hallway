@@ -82,7 +82,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   filtering:
     overrideState: 0
     value: {x: 43.339806, y: 88.339836}

@@ -10,10 +10,17 @@ public class PalmTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            for(int i = 0; i < RedPalm.Length; i++)
-            {
-                RedPalm[i].SetActive(true);
-            }
+            StartCoroutine(Handprint());
+        }
+    }
+
+    IEnumerator Handprint()
+    {
+        for (int i = 0; i < RedPalm.Length; i++)
+        {
+            RedPalm[i].SetActive(true);
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }

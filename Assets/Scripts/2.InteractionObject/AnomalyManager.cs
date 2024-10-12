@@ -5,10 +5,11 @@ using UnityEngine;
 public class AnomalyManager : MonoBehaviour
 {
     public GameObject[] exitLight; // 탈출구 지시등
-    public GameObject[] doll; // 인형(0. 빨강/1. 파랑/)
-    public GameObject[] hideDoll; // 숨은 인형
+    public GameObject[] doll; // 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
+    public GameObject[] hideDoll; // 숨겨진 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject fireExting; // 소화기
     public GameObject palmTrigger; // 손바닥 이벤트 트리거
+    public GameObject lockClassDoor; // 잠겨질 교실문
 
     private void Start()
     {
@@ -54,6 +55,7 @@ public class AnomalyManager : MonoBehaviour
             
             case 8:
                 palmTrigger.SetActive(true);
+                lockClassDoor.tag = "Door";
                 break;
         }
     }

@@ -24,7 +24,6 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] private float shakeAmount = 0.5f;
 
     private Transform TargetObject;
-    private AudioSource TargetAudio;
     private Vector3 cameraPosition; // Zoom-In 이전 카메라 위치
     private Vector3 flashPosition; // Zoom-In 이전 손전등 위치
 
@@ -56,15 +55,17 @@ public class InteractionManager : MonoBehaviour
 
                 StartCoroutine(OpenSlide(TargetObject, 0.8f, "OpenDoor"));
 
-                TargetAudio = TargetObject.GetComponent<AudioSource>();
-                TargetAudio.Play();
+                audioSource = TargetObject.GetComponent<AudioSource>();
+                audioSource.clip = audioManager.preloadClips[2];
+                audioSource.Play();
                 break;
 
             // 교실문(잠겨있는) 상호작용
             case "Door":
                 TargetObject = clickManager.hit.transform;
-                TargetAudio = TargetObject.GetComponent<AudioSource>();
-                TargetAudio.Play();
+                audioSource = TargetObject.GetComponent<AudioSource>();
+                audioSource.clip = audioManager.preloadClips[3];
+                audioSource.Play();
                 StartCoroutine(Shack(TargetObject));
                 break;
 
