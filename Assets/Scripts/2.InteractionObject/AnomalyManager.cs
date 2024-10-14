@@ -2,14 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 모든 이상현상을 관리하는 script
+/// </summary>
 public class AnomalyManager : MonoBehaviour
 {
     public GameObject[] exitLight; // 탈출구 지시등
     public GameObject[] doll; // 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] hideDoll; // 숨겨진 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject fireExting; // 소화기
-    public GameObject palmTrigger; // 손바닥 이벤트 트리거
+    public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject lockClassDoor; // 잠겨질 교실문
+    public GameObject footprintTrigger; // 발자국 이상현상 트리거
+    public GameObject ceilingHallway; // 복도 천장
+    public GameObject ceilingPart; // 복도 천장 파츠
+    public GameObject airConditioner; // 동아리방 에어컨
+    public GameObject ceilingClubroom; // 동아리방 천장
+
+    public AudioManager audioManager;
 
     private void Start()
     {
@@ -20,42 +30,57 @@ public class AnomalyManager : MonoBehaviour
     {
         switch(anomalyNum)
         {
-            case 0:
+            case 0: // 일반상태
                 break;
 
-            case 1:
+            case 1: // 탈출구 지시등 변화
                 exitLight[0].SetActive(false);
                 exitLight[1].SetActive(true);
                 break;
 
-            case 2:
+            case 2: // 빨간 인형 탐색
                 HideDoll(0);
                 fireExting.SetActive(false);
                 break;
 
-            case 3:
+            case 3: // 파란 인형 탐색
                 HideDoll(1);
                 break;
 
-            case 4:
+            case 4: // 초록 인형 탐색
                 HideDoll(2);
                 break;
 
-            case 5:
+            case 5: // 하얀 인형 탐색
                 HideDoll(3);
                 break;
 
-            case 6:
+            case 6: // 검은 인형 탐색
                 HideDoll(4);
                 break;
 
-            case 7:
+            case 7: // 갈색 인형 탐색
                 HideDoll(5);
                 break;
             
-            case 8:
+            case 8: // 피로 된 손자국
                 palmTrigger.SetActive(true);
                 lockClassDoor.tag = "Door";
+                break;
+
+            case 9: // 청각 상실
+                audioManager.LossHearing();
+                break;
+
+            case 10: // 피로 된 발자국
+                footprintTrigger.SetActive(true);
+                ceilingHallway.SetActive(false);
+                ceilingPart.SetActive(false);
+                break;
+
+            case 11: // 동아리방 에어컨 이상현상
+                ceilingClubroom.SetActive(false);
+                airConditioner.SetActive(false);
                 break;
         }
     }

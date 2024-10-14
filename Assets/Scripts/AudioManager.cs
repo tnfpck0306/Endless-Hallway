@@ -9,4 +9,13 @@ public class AudioManager : MonoBehaviour
     // 사전에 미리 로드하여 사용할 클립들
     public AudioClip[] preloadClips;
 
+    public AudioSource[] sfx;
+
+    public void LossHearing()
+    {
+        for(int i = 0; i < sfx.Length; i++)
+        {
+            sfx[i].enabled = false;
+        }
+    }
 }
