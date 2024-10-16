@@ -18,6 +18,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject ceilingPart; // 복도 천장 파츠
     public GameObject airConditioner; // 동아리방 에어컨
     public GameObject ceilingClubroom; // 동아리방 천장
+    public GameObject[] rackClassroom; // 교실 사물함
 
     public AudioManager audioManager;
 
@@ -81,6 +82,13 @@ public class AnomalyManager : MonoBehaviour
             case 11: // 동아리방 에어컨 이상현상
                 ceilingClubroom.SetActive(false);
                 airConditioner.SetActive(false);
+                break;
+
+            case 12: // 교실 사물함 이상현상
+                for(int i = 0; i < rackClassroom.Length; i++)
+                {
+                    rackClassroom[i].SetActive(false);
+                }
                 break;
         }
     }
