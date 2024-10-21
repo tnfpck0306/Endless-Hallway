@@ -17,6 +17,11 @@ public class KeyArrange : MonoBehaviour
     {
         num = Random.Range(0, keySpaces.Length);
 
+        if(GameManager.instance.anomalyNum == 14)
+        {
+            num = 15;
+        }
+
         Vector3 index = keySpaces[num].position;
 
         // 사물함 안에 열쇠를 배치할 때

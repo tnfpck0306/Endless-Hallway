@@ -19,6 +19,10 @@ public class AnomalyManager : MonoBehaviour
     public GameObject airConditioner; // 동아리방 에어컨
     public GameObject ceilingClubroom; // 동아리방 천장
     public GameObject[] rackClassroom; // 교실 사물함
+    public GameObject darkSpaceMonster; // 어두운 공간 유령
+    public GameObject dontRunPaper; // 뛰기 금지 포스터
+    public GameObject lockClubDoor; // 동아리방 문
+    public GameObject notice; // 공지문
 
     public AudioManager audioManager;
 
@@ -89,6 +93,17 @@ public class AnomalyManager : MonoBehaviour
                 {
                     rackClassroom[i].SetActive(false);
                 }
+                break;
+
+            case 13: // 어두운 교실 이상현상
+                darkSpaceMonster.SetActive(true);
+                break;
+
+            case 14: // 달리기 금지 이상현상
+                dontRunPaper.SetActive(true);
+                notice.SetActive(false);
+                lockClassDoor.tag = "Door";
+                lockClubDoor.tag = "Door";
                 break;
         }
     }
