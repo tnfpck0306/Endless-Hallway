@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 손전등 깜빡임 및 메인메뉴 이벤트를 위한 스크립트
+/// </summary>
 public class LightBlink : MonoBehaviour
 {
     public GameObject spotLight;

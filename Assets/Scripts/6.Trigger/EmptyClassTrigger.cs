@@ -10,6 +10,7 @@ public class EmptyClassTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        // 플레이어가 트리거 존 안에 존재할 경우
         if (other.CompareTag("Player"))
         {
             timeSpentIsZone += Time.deltaTime;
@@ -21,6 +22,7 @@ public class EmptyClassTrigger : MonoBehaviour
         }
     }
 
+    // 문 닫힘
     IEnumerator closeDoor(Transform targetObject, float distance)
     {
         Vector3 targetPosition;

@@ -120,12 +120,23 @@ public class PlayerMovement : MonoBehaviour
             {
                 audioSource.Play();
             }
+
+            NoRunning();
         }
         // 움직임이 없을 때
         else
         {
             playerState = PlayerState.Stop;
             audioSource.Stop();
+        }
+    }
+
+    // 달리기 금지(이상현상 14번)
+    private void NoRunning()
+    {
+        if (isSprinting == true && GameManager.instance.anomalyNum == 14)
+        {
+            GameManager.instance.EndGame();
         }
     }
 }

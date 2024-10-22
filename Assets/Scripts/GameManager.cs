@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// 게임의 스테이지, 상태여부, 이상현상 종류를 관리하는 게임 매니저
+/// 게임의 스테이지, 상태여부, 게임오버를 관리하는 게임 매니저
 /// </summary>
 public class GameManager : MonoBehaviour
 {
@@ -41,6 +42,9 @@ public class GameManager : MonoBehaviour
     public List<int> anomalyData;
     public int anomalyNum; // 이상현상 종류
 
+    public FadeControl fadeControl; // 페이드 인/아웃
+    public bool isFadeOut = true;
+
     private void Awake()
     {
 
@@ -61,6 +65,7 @@ public class GameManager : MonoBehaviour
 
         anomalyData = new List<int>(anomaly.anomalyList);
         anomalyNum = 0;
+
     }
 
     // 스테이지 상태 설정
@@ -120,6 +125,26 @@ public class GameManager : MonoBehaviour
     // 게임오버 처리
     public void EndGame()
     {
-        
+        fadeControl = GameObject.Find("Canvas").GetComponent<FadeControl>();
+
+        // 스테이지 초기화
+        condition = true;
+        stage = 0;
+        randStage_max = 5;
+        anomalyData = new List<int>(anomaly.anomalyList);
+        anomalyNum = 0;
+        GetStageState();
+
+        // 페이드 아웃
+        fadeControl.FadeOut();
+        fadeControl.RegisterCallback(SceneReset);
+    }
+
+    // 씬 전환
+    private void SceneReset()
+    {
+        isFadeOut = true;
+        SceneManager.LoadScene("Endless Hallway01");
+
     }
 }

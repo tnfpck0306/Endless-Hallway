@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 모든 이상현상을 관리하는 script
+/// 모든 이상현상을 관리하는 스크립트
 /// </summary>
 public class AnomalyManager : MonoBehaviour
 {
@@ -23,6 +23,8 @@ public class AnomalyManager : MonoBehaviour
     public GameObject dontRunPaper; // 뛰기 금지 포스터
     public GameObject lockClubDoor; // 동아리방 문
     public GameObject notice; // 공지문
+    public GameObject normalClassDesk; // 일반 상태 교실 책상
+    public GameObject anomalyClassDesk; // 이상현상 상태 교실 책상
 
     public AudioManager audioManager;
 
@@ -104,6 +106,11 @@ public class AnomalyManager : MonoBehaviour
                 notice.SetActive(false);
                 lockClassDoor.tag = "Door";
                 lockClubDoor.tag = "Door";
+                break;
+            
+            case 15: // 교실 책상 수 이상현상
+                normalClassDesk.SetActive(false);
+                anomalyClassDesk.SetActive(true);
                 break;
         }
     }

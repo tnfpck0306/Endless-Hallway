@@ -9,12 +9,24 @@ public class FadeControl : MonoBehaviour
     public GameObject panel; // 패널 오브젝트
     private Action onCompleteCallback;
 
+    private void Awake()
+    {
+        // 페이드 아웃 상태였으면 이후 페이드 인
+        if (GameManager.instance.isFadeOut)
+        {
+            FadeIn();
+            GameManager.instance.isFadeOut = false;
+        }
+    }
+
+    // 페이드 인
     public void FadeIn()
     {
         panel.SetActive(true);
         StartCoroutine(CoFadeIn());
     }
 
+    // 페이드 아웃
     public void FadeOut()
     {
         panel.SetActive(true) ;
@@ -24,7 +36,7 @@ public class FadeControl : MonoBehaviour
     IEnumerator CoFadeIn()
     {
         float elapsedTime = 0f; // 누적 경과 시간
-        float fadeTime = 0.5f; // 총 소요 시간
+        float fadeTime = 1f; // 총 소요 시간
 
         Image panelImage = panel.GetComponent<Image>();
 
@@ -43,7 +55,7 @@ public class FadeControl : MonoBehaviour
     IEnumerator CoFadeOut()
     {
         float elapsedTime = 0f; // 누적 경과 시간
-        float fadeTime = 0.5f; // 총 소요 시간
+        float fadeTime = 1f; // 총 소요 시간
 
         Image panelImage = panel.GetComponent<Image>();
 
