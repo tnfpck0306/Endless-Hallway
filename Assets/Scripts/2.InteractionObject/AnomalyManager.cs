@@ -11,9 +11,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject[] doll; // 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] hideDoll; // 숨겨진 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject fireExting; // 소화기
-    public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject lockClassDoor; // 잠겨질 교실문
-    public GameObject footprintTrigger; // 발자국 이상현상 트리거
     public GameObject ceilingHallway; // 복도 천장
     public GameObject ceilingPart; // 복도 천장 파츠
     public GameObject airConditioner; // 동아리방 에어컨
@@ -25,6 +23,11 @@ public class AnomalyManager : MonoBehaviour
     public GameObject notice; // 공지문
     public GameObject normalClassDesk; // 일반 상태 교실 책상
     public GameObject anomalyClassDesk; // 이상현상 상태 교실 책상
+    public GameObject lockerRoomMonster; // 락커룸 괴물
+
+    public GameObject palmTrigger; // 손바닥 이상현상 트리거
+    public GameObject footprintTrigger; // 발자국 이상현상 트리거
+    public GameObject ballbounceTrigger; // 공 굴러가는 이상현상 트리거
 
     public AudioManager audioManager;
 
@@ -111,6 +114,14 @@ public class AnomalyManager : MonoBehaviour
             case 15: // 교실 책상 수 이상현상
                 normalClassDesk.SetActive(false);
                 anomalyClassDesk.SetActive(true);
+                break;
+
+            case 16: // 공이 굴러가는 이상현상
+                ballbounceTrigger.SetActive(true);
+                break;
+
+            case 17: // 락커룸 괴물 이상현상
+                lockerRoomMonster.SetActive(true);
                 break;
         }
     }

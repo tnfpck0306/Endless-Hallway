@@ -10,7 +10,6 @@ public class BallBounceTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Work");
             ballMovement.startMove();
         }
     }
