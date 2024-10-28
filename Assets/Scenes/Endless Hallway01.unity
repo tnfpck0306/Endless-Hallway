@@ -12239,7 +12239,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -13970,6 +13970,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 456155594}
+  - component: {fileID: 456155595}
   m_Layer: 0
   m_Name: Speaker
   m_TagString: Untagged
@@ -13997,6 +13998,27 @@ Transform:
   m_Father: {fileID: 1078281836}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &456155595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456155593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67d01f6126c56c4cadba5b5e234ab41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSources:
+  - {fileID: 1176048410}
+  - {fileID: 1999876766}
+  - {fileID: 420341209}
+  - {fileID: 1985263640}
+  - {fileID: 2118799845}
+  playDuration: 4
+  silenceDuration: 3
+  isPlayingSound: 0
 --- !u!4 &456345161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 466024, guid: a3ba9171c5a5ed94b856aac6c9654ffd, type: 3}
@@ -22877,6 +22899,7 @@ MonoBehaviour:
   normalClassDesk: {fileID: 29866592}
   anomalyClassDesk: {fileID: 1246163516}
   lockerRoomMonster: {fileID: 1209316466}
+  speaker: {fileID: 456155593}
   palmTrigger: {fileID: 1979323574}
   footprintTrigger: {fileID: 357602505}
   ballbounceTrigger: {fileID: 330973637}
@@ -36301,7 +36324,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -43618,6 +43641,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c001e70d3c676f5428fb9fbb85e91ac7, type: 3}
   - {fileID: 8300000, guid: 512fce2660314b14482e5f04a4a41112, type: 3}
   - {fileID: 8300000, guid: 839e1662753b8a348a2fc52919d6e66b, type: 3}
+  - {fileID: 8300000, guid: adb71e50d6aa65f4e88a005d51b879dc, type: 3}
   sfx:
   - {fileID: 1925297533}
   - {fileID: 622087134}
@@ -43638,6 +43662,11 @@ MonoBehaviour:
   - {fileID: 1977130873}
   - {fileID: 1891843545}
   - {fileID: 256681833}
+  - {fileID: 1176048410}
+  - {fileID: 1999876766}
+  - {fileID: 420341209}
+  - {fileID: 1985263640}
+  - {fileID: 2118799845}
 --- !u!1001 &1377483134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45176,6 +45205,7 @@ MonoBehaviour:
   objectRotate: {fileID: 249225142}
   playerInven: {fileID: 1430865288}
   clickManager: {fileID: 399787984}
+  speakerControl: {fileID: 456155595}
   audioSource: {fileID: 1925297533}
   footstepSound: {fileID: 8300000, guid: 099a65976ff531b42a1fe05de099bd66, type: 3}
   moveSpeed: 2
@@ -62153,7 +62183,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -62590,7 +62620,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -67120,7 +67150,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

@@ -15,8 +15,9 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform; // 카메라 위치
     public ObjectRotate objectRotate; // 오브젝트 회전 참조
     public PlayerInven playerInven; // 플레이어 인벤토리
+    
     public ClickManager clickManager; // 플레이어 클릭
-    private string rayHitString;
+    public SpeakerControl speakerControl; // 스피커 상호작용
 
     public AudioSource audioSource; // 플레이어 AudioSource
     public AudioClip footstepSound; // 플레이어 발소리 Clip
@@ -44,6 +45,13 @@ public class PlayerMovement : MonoBehaviour
         if(playerState != PlayerState.Limit)
         {
             PlayerMove(); // 플레이어 이동
+        }
+
+        // 스피커 소리가 들리지 않을 때 움직임 금지(18번 이상현상)
+        if(GameManager.instance.anomalyNum == 18)
+        {
+            if(playerState == PlayerState.Walk && !speakerControl.isPlayingSound)
+                GameManager.instance.EndGame();
         }
 
     }

@@ -24,6 +24,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject normalClassDesk; // 일반 상태 교실 책상
     public GameObject anomalyClassDesk; // 이상현상 상태 교실 책상
     public GameObject lockerRoomMonster; // 락커룸 괴물
+    public GameObject speaker; // 스피커
 
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
@@ -122,6 +123,12 @@ public class AnomalyManager : MonoBehaviour
 
             case 17: // 락커룸 괴물 이상현상
                 lockerRoomMonster.SetActive(true);
+                break;
+
+            case 18: // 스피커 이상현상
+                SpeakerControl speakerControl = speaker.GetComponent<SpeakerControl>();
+                AudioClip audioClip = audioManager.preloadClips[4];
+                speakerControl.SpeakerSound(audioClip);
                 break;
         }
     }
