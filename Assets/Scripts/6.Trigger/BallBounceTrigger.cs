@@ -13,4 +13,5 @@ public class BallBounceTrigger : MonoBehaviour
             ballMovement.startMove();
         }
     }
+
 }

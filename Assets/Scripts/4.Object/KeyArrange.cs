@@ -15,7 +15,7 @@ public class KeyArrange : MonoBehaviour
     // 블루키 배치 로직
     private void Arrangement()
     {
-        num = Random.Range(0, keySpaces.Length);
+        num = Random.Range(0, keySpaces.Length - 1);
 
         if(GameManager.instance.anomalyNum == 14)
         {

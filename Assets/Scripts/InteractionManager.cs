@@ -53,11 +53,12 @@ public class InteractionManager : MonoBehaviour
                 TargetObject = clickManager.hit.transform;
                 TargetObject.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-                StartCoroutine(OpenSlide(TargetObject, 0.8f, "OpenDoor"));
+                StartCoroutine(OpenSlide(TargetObject, 0.8f, "Door"));
 
                 audioSource = TargetObject.GetComponent<AudioSource>();
                 audioSource.clip = audioManager.preloadClips[2];
                 audioSource.Play();
+
                 break;
 
             // 교실문(잠겨있는) 상호작용

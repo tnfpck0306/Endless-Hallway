@@ -29,6 +29,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
     public GameObject ballbounceTrigger; // 공 굴러가는 이상현상 트리거
+    public GameObject clubRoomTrigger; // 동아리방 이상현상 트리거
 
     public AudioManager audioManager;
 
@@ -129,6 +130,10 @@ public class AnomalyManager : MonoBehaviour
                 SpeakerControl speakerControl = speaker.GetComponent<SpeakerControl>();
                 AudioClip audioClip = audioManager.preloadClips[4];
                 speakerControl.SpeakerSound(audioClip);
+                break;
+
+            case 19: // 동아리방 문 잠금 이상현상
+                clubRoomTrigger.SetActive(true);
                 break;
         }
     }
