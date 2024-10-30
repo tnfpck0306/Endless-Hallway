@@ -12,6 +12,7 @@ public class LightBlink : MonoBehaviour
     public GameObject door;
     public GameObject eyes;
 
+    private bool isWork = false; // 작동 여부
     private float timer = 0; // 손전등 타이머
     private int count; // 이상현상 효과 타이밍
 
@@ -24,10 +25,10 @@ public class LightBlink : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if(timer > 8)
+        if(timer > 3 && !isWork)
         {
+            isWork = true;
             StartCoroutine(blink());
-            timer = 0;
         }
     }
 
@@ -59,6 +60,9 @@ public class LightBlink : MonoBehaviour
 
         eyes.SetActive(false);
         spotLight.SetActive(true);
+
+        timer = 0;
+        isWork = false;
     }
 
     private void footprintEffect()
