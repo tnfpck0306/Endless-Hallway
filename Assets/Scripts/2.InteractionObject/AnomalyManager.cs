@@ -10,6 +10,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject[] exitLight; // 탈출구 지시등
     public GameObject[] doll; // 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] hideDoll; // 숨겨진 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
+    public GameObject[] picture; // Find me 그림
     public GameObject fireExting; // 소화기
     public GameObject lockClassDoor; // 잠겨질 교실문
     public GameObject ceilingHallway; // 복도 천장
@@ -142,6 +143,7 @@ public class AnomalyManager : MonoBehaviour
     {
         GameManager.instance.condition = false;
         doll[dollNum].SetActive(false);
+        picture[dollNum].SetActive(true);
         hideDoll[dollNum].SetActive(true);
     }
 
@@ -152,6 +154,7 @@ public class AnomalyManager : MonoBehaviour
         {
             case 2:
                 doll[0].SetActive(true);
+                picture[0].SetActive(false);
                 hideDoll[0].SetActive(false);
                 break;
 

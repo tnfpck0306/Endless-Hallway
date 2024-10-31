@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e4458ae94b67748be3519ad0f815d9, type: 3}
   m_Name: AnomalyList
   m_EditorClassIdentifier: 
-  anomalyList: 11000000
+  anomalyList: 02000000
