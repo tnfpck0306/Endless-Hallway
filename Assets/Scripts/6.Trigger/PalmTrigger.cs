@@ -16,20 +16,29 @@ public class PalmTrigger : MonoBehaviour
 
     IEnumerator Handprint()
     {
-        int index = RedPalm.Length / 2;
-        int count = index + 1;
-        for (int i = 0; i < count; i++)
+        int printMiddle = RedPalm.Length / 2;
+        int count = printMiddle + 1;
+
+        int printQuarter = (count / 2) + 1;
+        float interval = 0.35f;
+        for (int i = 0; i < printQuarter; i++)
         {
+
             RedPalm[i].SetActive(true);
-            
+
             if (i != 0)
             {
-                RedPalm[i + index].SetActive(true);
-                yield return new WaitForSeconds(0.1f);
+                RedPalm[count - i].SetActive(true);
+                RedPalm[i + printMiddle].SetActive(true);
+                RedPalm[RedPalm.Length - i].SetActive(true);
+                yield return new WaitForSeconds(interval);
             }
 
             else
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.7f);
+
+            if (interval > 0.1f)
+                interval -= 0.05f;
         }
     }
 }
