@@ -27,6 +27,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject lockerRoomMonster; // 락커룸 괴물
     public GameObject speaker; // 스피커
 
+    public GameObject dollTrigger; // 인형 웃음소리 트리거
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
     public GameObject ballbounceTrigger; // 공 굴러가는 이상현상 트리거
@@ -139,17 +140,27 @@ public class AnomalyManager : MonoBehaviour
         }
     }
 
+    // 인형 숨기기
     private void HideDoll(int dollNum)
     {
         GameManager.instance.condition = false;
         doll[dollNum].SetActive(false);
         picture[dollNum].SetActive(true);
         hideDoll[dollNum].SetActive(true);
+        dollTrigger.SetActive(true);
     }
 
+    // 인형 복구
     public void FindeDoll(int anomalyNum)
     {
         GameManager.instance.condition = true;
+        int dollNum = anomalyNum - 2;
+
+        doll[dollNum].SetActive(true);
+        picture[dollNum].SetActive(false);
+        hideDoll[dollNum].SetActive(false);
+
+        /*
         switch (anomalyNum)
         {
             case 2:
@@ -160,29 +171,34 @@ public class AnomalyManager : MonoBehaviour
 
             case 3:
                 doll[1].SetActive(true);
+                picture[1].SetActive(false);
                 hideDoll[1].SetActive(false);
                 break;
 
             case 4:
                 doll[2].SetActive(true);
+                picture[2].SetActive(false);
                 hideDoll[2].SetActive(false);
                 break;
 
             case 5:
                 doll[3].SetActive(true);
+                picture[3].SetActive(false);
                 hideDoll[3].SetActive(false);
                 break;
 
             case 6:
                 doll[4].SetActive(true);
+                picture[4].SetActive(false);
                 hideDoll[4].SetActive(false);
                 break;
 
             case 7:
                 doll[5].SetActive(true);
+                picture[5].SetActive(false);
                 hideDoll[5].SetActive(false);
                 break;
 
-        }
+        }*/
     }
 }
