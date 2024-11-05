@@ -5,12 +5,15 @@ using UnityEngine;
 public class FootprintTrigger : MonoBehaviour
 {
     public GameObject[] footprint;
+    public FootprintAudio footprintAudio;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             StartCoroutine(Footprint());
+            footprintAudio.StartFootprint();
+            gameObject.GetComponent<BoxCollider>().enabled = false;
         }
     }
 
@@ -23,7 +26,7 @@ public class FootprintTrigger : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         for (int i = 10; i < footprint.Length; i++)
         {
