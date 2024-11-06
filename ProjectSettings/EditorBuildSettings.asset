@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 3533a14f468dac34682c17f165501bcf
+  - enabled: 1
     path: Assets/Scenes/Endless Hallway01.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: Assets/Scenes/Endless Hallway02.unity
-    guid: 57a03c139ba4a9c44aff0e8b3b734205
   m_configObjects: {}
