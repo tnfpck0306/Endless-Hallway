@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class AnomalyManager : MonoBehaviour
 {
+    public GameObject keyNotice; // 사용자 키 설명 공지문
     public GameObject[] exitLight; // 탈출구 지시등
     public GameObject[] doll; // 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] hideDoll; // 숨겨진 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
@@ -27,13 +28,13 @@ public class AnomalyManager : MonoBehaviour
     public GameObject lockerRoomMonster; // 락커룸 괴물
     public GameObject speaker; // 스피커
 
-    public GameObject dollTrigger; // 인형 웃음소리 트리거
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
     public GameObject ballbounceTrigger; // 공 굴러가는 이상현상 트리거
     public GameObject clubRoomTrigger; // 동아리방 이상현상 트리거
 
     public AudioManager audioManager;
+    public PlayerEventAudio playerEventAudio;
 
     private void Start()
     {
@@ -45,6 +46,7 @@ public class AnomalyManager : MonoBehaviour
         switch(anomalyNum)
         {
             case 0: // 일반상태
+                keyNotice.SetActive(true);
                 break;
 
             case 1: // 탈출구 지시등 변화
@@ -143,62 +145,23 @@ public class AnomalyManager : MonoBehaviour
     // 인형 숨기기
     private void HideDoll(int dollNum)
     {
-        GameManager.instance.condition = false;
+        GameManager.instance.condition = false; // 조건 불충족
         doll[dollNum].SetActive(false);
         picture[dollNum].SetActive(true);
         hideDoll[dollNum].SetActive(true);
-        dollTrigger.SetActive(true);
     }
 
     // 인형 복구
     public void FindeDoll(int anomalyNum)
     {
-        GameManager.instance.condition = true;
+        GameManager.instance.condition = true; // 조건 충족
         int dollNum = anomalyNum - 2;
+
+        playerEventAudio.DollLaughSound(audioManager.preloadClips[7]);
 
         doll[dollNum].SetActive(true);
         picture[dollNum].SetActive(false);
         hideDoll[dollNum].SetActive(false);
 
-        /*
-        switch (anomalyNum)
-        {
-            case 2:
-                doll[0].SetActive(true);
-                picture[0].SetActive(false);
-                hideDoll[0].SetActive(false);
-                break;
-
-            case 3:
-                doll[1].SetActive(true);
-                picture[1].SetActive(false);
-                hideDoll[1].SetActive(false);
-                break;
-
-            case 4:
-                doll[2].SetActive(true);
-                picture[2].SetActive(false);
-                hideDoll[2].SetActive(false);
-                break;
-
-            case 5:
-                doll[3].SetActive(true);
-                picture[3].SetActive(false);
-                hideDoll[3].SetActive(false);
-                break;
-
-            case 6:
-                doll[4].SetActive(true);
-                picture[4].SetActive(false);
-                hideDoll[4].SetActive(false);
-                break;
-
-            case 7:
-                doll[5].SetActive(true);
-                picture[5].SetActive(false);
-                hideDoll[5].SetActive(false);
-                break;
-
-        }*/
     }
 }

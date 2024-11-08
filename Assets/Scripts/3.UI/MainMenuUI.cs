@@ -15,6 +15,15 @@ public class MainMenuUI : MonoBehaviour
     private void Awake()
     {
         toggleButton.onValueChanged.AddListener(ToggleFullScreen);
+
+        if (Screen.fullScreenMode == FullScreenMode.FullScreenWindow)
+        {
+            toggleButton.isOn = true;
+        }
+        else
+        {
+            toggleButton.isOn = false;
+        }
     }
 
     public void ToggleFullScreen(bool isOn)
