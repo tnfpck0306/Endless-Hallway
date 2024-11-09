@@ -7046,8 +7046,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 783487543}
-        m_TargetAssemblyTypeName: ExitGame, Assembly-CSharp
+      - m_Target: {fileID: 931975090}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
         m_MethodName: ExitProgram
         m_Mode: 1
         m_Arguments:

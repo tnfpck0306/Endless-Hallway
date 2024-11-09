@@ -7,6 +7,9 @@ public class FootprintTrigger : MonoBehaviour
     public GameObject[] footprint;
     public FootprintAudio footprintAudio;
 
+    /// <summary>
+    /// 10번 이상현상(피 묻은 발자국) 작동 트리거 스크립트
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -23,7 +26,7 @@ public class FootprintTrigger : MonoBehaviour
         {
             footprint[i].SetActive(true);
 
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.12f);
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -32,7 +35,7 @@ public class FootprintTrigger : MonoBehaviour
         {
             footprint[i].SetActive(true);
 
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.12f);
         }
     }
 }

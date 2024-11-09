@@ -12,10 +12,32 @@ public class PalmTrigger : MonoBehaviour
     public AudioManager audioManager; // 손바닥 사운드 클립
     public Light flashLight; // 손전등
 
+    private Vector3 targetLeft; // 왼손 목적 위치
+    private Vector3 targetRight; // 오른손 목적 위치
+    private Vector3 startLeft; // 왼손 초기 위치
+    private Vector3 startRight; // 오른손 초기 위치
+    public GameObject LeftHand; // 점프스케어 왼손
+    public GameObject RightHand; // 점프스케어 오른손
+
+    [SerializeField] private float moveDuration = 2.5f; // 작동 시간
+
     private bool EndCheck = false; // 트리거 종료 여부
 
+    private void Start()
+    {
+        startLeft = LeftHand.transform.localPosition;
+        startRight = RightHand.transform.localPosition;
+
+        targetLeft = new Vector3(-0.28f, -0.043f, 0.4f);
+        targetRight = new Vector3(0.28f, -0.043f, 0.4f);
+    }
+
+    // 트리거
     private void OnTriggerEnter(Collider other)
     {
+        LeftHand.SetActive(true);
+        RightHand.SetActive(true);
+
         if (other.CompareTag("Player"))
         {
             StartCoroutine(Handprint());
@@ -24,6 +46,7 @@ public class PalmTrigger : MonoBehaviour
         }
     }
 
+    // 피 묻은 손자국 찍기
     IEnumerator Handprint()
     {
         int printMiddle = RedPalm.Length / 2;
@@ -57,8 +80,34 @@ public class PalmTrigger : MonoBehaviour
         }
 
         EndCheck = true;
+        yield return new WaitForSeconds(1f);
+
+        StartCoroutine(HandMovement());
     }
 
+    // 점프스케어 손 움직임
+    IEnumerator HandMovement()
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime < moveDuration)
+        {
+            LeftHand.transform.localPosition = Vector3.Lerp(startLeft, targetLeft, elapsedTime / moveDuration);
+            RightHand.transform.localPosition = Vector3.Lerp(startRight, targetRight, elapsedTime / moveDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        LeftHand.transform.localPosition = targetLeft;
+        RightHand.transform.localPosition = targetRight;
+
+        flashLight.enabled = false;
+        LeftHand.SetActive(false);
+        RightHand.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+
+        flashLight.enabled = true;
+    }
+
+    // 손전등 깜박임
     IEnumerator blink()
     {
         yield return new WaitForSeconds(0.7f);

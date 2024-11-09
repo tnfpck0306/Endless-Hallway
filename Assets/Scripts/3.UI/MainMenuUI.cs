@@ -48,6 +48,16 @@ public class MainMenuUI : MonoBehaviour
         settingPanel.SetActive(true);
     }
 
+    public void ExitProgram()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+
+#endif
+        Application.Quit();
+
+    }
+
     public void ReturnButton()
     {
         settingPanel.SetActive(false);
