@@ -11,6 +11,7 @@ public class LightBlink : MonoBehaviour
     public GameObject footprint;
     public GameObject door;
     public GameObject eyes;
+    public GameObject monster;
 
     private bool isWork = false; // 작동 여부
     private float timer = 0; // 손전등 타이머
@@ -70,11 +71,13 @@ public class LightBlink : MonoBehaviour
         if (footprint.activeSelf)
         {
             door.SetActive(true);
+            monster.SetActive(false);
             footprint.SetActive(false);
         }
         else
         {
             door.SetActive(false);
+            monster.SetActive(true);
             footprint.SetActive(true);
         }
     }

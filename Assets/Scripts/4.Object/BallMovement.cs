@@ -11,10 +11,13 @@ public class BallMovement : MonoBehaviour
     private bool positionMove = false; // À§Ä¡ ÀÌµ¿ ¿©ºÎ
 
     private Rigidbody rb;
+    private AudioSource audioSource;
+    private int count = 0;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -36,7 +39,7 @@ public class BallMovement : MonoBehaviour
                     gameObject.transform.position = new Vector3(10.6f, 1.6f, 25f);
                     positionMove = true;
                 }
-                rb.AddForce(Vector3.back * 1000 * Time.deltaTime);
+                rb.AddForce(Vector3.back * 1500 * Time.deltaTime);
             }
 
         }
@@ -47,7 +50,13 @@ public class BallMovement : MonoBehaviour
         // Æ¨±â´Â Èû
         if (collision.gameObject.CompareTag("Untagged"))
         {
+            count++;
+            Debug.Log(count);
             rb.AddForce(Vector3.up * bounceForce * Time.deltaTime);
+            if (count < 9)
+            {
+                audioSource.Play();
+            }
         }
     }
 

@@ -245,7 +245,7 @@ Material:
     - _EnableFogOnTransparent: 1
     - _Float: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0.1
     - _GlossyReflections: 1
     - _Intensity: 1
     - _Lerp: 0

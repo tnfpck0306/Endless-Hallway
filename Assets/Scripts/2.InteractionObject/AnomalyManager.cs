@@ -16,6 +16,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject lockClassDoor; // 잠겨질 교실문
     public GameObject ceilingHallway; // 복도 천장
     public GameObject ceilingPart; // 복도 천장 파츠
+    public GameObject ceilingMonster; // 천장 이상현상
     public GameObject airConditioner; // 동아리방 에어컨
     public GameObject ceilingClubroom; // 동아리방 천장
     public GameObject[] rackClassroom; // 교실 사물함
@@ -43,10 +44,12 @@ public class AnomalyManager : MonoBehaviour
 
     public void placeAnomaly(int anomalyNum)
     {
-        switch(anomalyNum)
+        if(GameManager.instance.stage == 0) // 0단계에서는 공지문 띄우기
+            keyNotice.SetActive(true);
+
+        switch (anomalyNum)
         {
             case 0: // 일반상태
-                keyNotice.SetActive(true);
                 break;
 
             case 1: // 탈출구 지시등 변화
@@ -95,6 +98,7 @@ public class AnomalyManager : MonoBehaviour
                 break;
 
             case 11: // 동아리방 에어컨 이상현상
+                ceilingMonster.SetActive(true);
                 ceilingClubroom.SetActive(false);
                 airConditioner.SetActive(false);
                 break;
