@@ -23,7 +23,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject darkSpaceMonster; // 어두운 공간 유령
     public GameObject dontRunPaper; // 뛰기 금지 포스터
     public GameObject lockClubDoor; // 동아리방 문
-    public GameObject notice; // 공지문
+    public GameObject[] board ; // 공지판
     public GameObject normalClassDesk; // 일반 상태 교실 책상
     public GameObject anomalyClassDesk; // 이상현상 상태 교실 책상
     public GameObject lockerRoomMonster; // 락커룸 괴물
@@ -116,7 +116,10 @@ public class AnomalyManager : MonoBehaviour
 
             case 14: // 달리기 금지 이상현상
                 dontRunPaper.SetActive(true);
-                notice.SetActive(false);
+                for (int i = 0; i < board.Length; i++)
+                {
+                    board[i].SetActive(false);
+                }
                 lockClassDoor.tag = "Door";
                 lockClubDoor.tag = "Door";
                 break;

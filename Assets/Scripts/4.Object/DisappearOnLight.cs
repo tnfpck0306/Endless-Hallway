@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.XR;
 
 public class DisappearOnLight : MonoBehaviour
 {
@@ -11,12 +7,18 @@ public class DisappearOnLight : MonoBehaviour
     public float detectionRange = 10f;
     public float timeToDisappear = 2f;
 
+    [SerializeField] Transform player;
     public GameObject[] rackDoor;
 
     private float timer = 0f;
     private bool isHit = false; // 빛 감지 여부
     private bool isTriggerActive = false; // 트리거 작동 여부
+    private Animator animator;
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     private void Update()
     {
         // 라이트에서 전방으로 광선을 쏘아서 충돌 감지
@@ -48,7 +50,8 @@ public class DisappearOnLight : MonoBehaviour
             if(timer >= timeToDisappear && !isTriggerActive)
             {
                 isTriggerActive = true;
-                StartCoroutine(blink());
+                StartCoroutine(Blink());
+                StartCoroutine(Chase());
 
                 foreach (GameObject rackObject in rackDoor)
                 {
@@ -62,8 +65,9 @@ public class DisappearOnLight : MonoBehaviour
         }
     }
 
-    IEnumerator blink()
+    IEnumerator Blink()
     {
+        animator.SetBool("chase", true);
         flashLight.enabled = false;
 
         yield return new WaitForSeconds(0.1f);
@@ -74,7 +78,7 @@ public class DisappearOnLight : MonoBehaviour
 
         flashLight.enabled = false;
 
-        gameObject.transform.position = new Vector3(transform.position.x + 0.4f, transform.position.y, transform.position.z - 1.5f);
+        //gameObject.transform.position = new Vector3(transform.position.x + 0.4f, transform.position.y, transform.position.z - 1.5f);
         yield return new WaitForSeconds(0.1f);
 
         flashLight.enabled = true;
@@ -87,6 +91,19 @@ public class DisappearOnLight : MonoBehaviour
 
         flashLight.enabled = true;
         gameObject.SetActive(false);
+    }
+
+    IEnumerator Chase()
+    {
+
+
+        while (true)
+        {
+            Vector3 direction = (player.position - transform.position).normalized;
+            transform.position += direction * 5f * Time.deltaTime;
+
+            yield return null;
+        }
     }
 
 

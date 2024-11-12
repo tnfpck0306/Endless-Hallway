@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -42,6 +43,8 @@ public class UIManager : MonoBehaviour
         {
             if(!menuPanel.activeSelf)
             {
+                // 오디오 리스너 음소거
+                AudioListener.pause = true;
 
                 // 커서 고정 풀기
                 Cursor.lockState = CursorLockMode.Confined;
@@ -81,6 +84,9 @@ public class UIManager : MonoBehaviour
     // 메뉴의 return 버튼
     public void ReturnMenuButton()
     {
+        // 오디오 리스너 음소거 해제
+        AudioListener.pause = false;
+
         // 커서를 화면 중간에 고정, 커서 숨김
         Cursor.lockState = CursorLockMode.Locked;
 
