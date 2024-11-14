@@ -51,7 +51,6 @@ public class BallMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Untagged"))
         {
             count++;
-            Debug.Log(count);
             rb.AddForce(Vector3.up * bounceForce * Time.deltaTime);
             if (count < 9)
             {

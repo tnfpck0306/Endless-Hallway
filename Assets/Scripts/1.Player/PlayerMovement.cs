@@ -103,7 +103,14 @@ public class PlayerMovement : MonoBehaviour
             {
 
                 if (target == 3 || target == 4)
-                    SceneManager.LoadScene("Endless Hallway01");
+                {
+                    if(GameManager.instance.stage != 1)
+                        SceneManager.LoadScene("Endless Hallway01");
+                    else
+                        SceneManager.LoadScene("Endless Hallway02");
+
+                }
+                
             }
 
             if (!audioSource.isPlaying)
