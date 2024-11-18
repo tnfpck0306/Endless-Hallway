@@ -76,6 +76,9 @@ public class UIManager : MonoBehaviour
     // 메뉴의 exit 버튼
     public void ExitButton()
     {
+        // 오디오 리스너 음소거 해제
+        AudioListener.pause = false;
+
         Time.timeScale = 1;
         GameManager.instance.isFadeOut = true;
         SceneManager.LoadScene("MainMenu");

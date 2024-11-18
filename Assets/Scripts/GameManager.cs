@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     public StageState stageState;
     public Anomaly anomaly;
 
+    [SerializeField] private int endingStage;
     private int randStage; // 이상현상 확률
     private int randStage_max;
     public int stage; // 게임 스테이지
@@ -138,6 +139,17 @@ public class GameManager : MonoBehaviour
         // 페이드 아웃
         fadeControl.FadeOut();
         fadeControl.RegisterCallback(SceneReset);
+    }
+
+    public void EndingScean()
+    {
+        if (stage != endingStage)
+            SceneManager.LoadScene("Endless Hallway01");
+        else
+        {
+            anomalyNum = 0;
+            SceneManager.LoadScene("Endless Hallway02");
+        }
     }
 
     // 씬 전환

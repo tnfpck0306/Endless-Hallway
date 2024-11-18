@@ -26173,6 +26173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageState: 0
   anomaly: {fileID: 11400000, guid: 0e8f17bd7d1bbc444b54b6f870d31869, type: 2}
+  endingStage: 12
   stage: 0
   condition: 0
   anomalyData: 
