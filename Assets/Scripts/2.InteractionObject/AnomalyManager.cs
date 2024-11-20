@@ -9,6 +9,7 @@ public class AnomalyManager : MonoBehaviour
 {
     public GameObject keyNotice; // 사용자 키 설명 공지문
     public GameObject[] exitLight; // 탈출구 지시등
+    public GameObject[] doorText; // 탈출문 문구
     public GameObject[] doll; // 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] hideDoll; // 숨겨진 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] picture; // Find me 그림
@@ -19,7 +20,8 @@ public class AnomalyManager : MonoBehaviour
     public GameObject ceilingMonster; // 천장 이상현상
     public GameObject airConditioner; // 동아리방 에어컨
     public GameObject ceilingClubroom; // 동아리방 천장
-    public GameObject[] rackClassroom; // 교실 사물함
+    public GameObject[] chairClassroom; // 교실 의자
+    public GameObject[] lightClassroom; // 교실 전등
     public GameObject darkSpaceMonster; // 어두운 공간 유령
     public GameObject dontRunPaper; // 뛰기 금지 포스터
     public GameObject lockClubDoor; // 동아리방 문
@@ -52,9 +54,19 @@ public class AnomalyManager : MonoBehaviour
             case 0: // 일반상태
                 break;
 
-            case 1: // 탈출구 지시등 변화
+            case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화
                 exitLight[0].SetActive(false);
                 exitLight[1].SetActive(true);
+
+                Vector3 indexPosition = doorText[0].transform.position;
+                Quaternion indexRotation = doorText[0].transform.rotation;
+
+                doorText[0].transform.position = doorText[1].transform.position;
+                doorText[0].transform.rotation = doorText[1].transform.rotation;
+
+                doorText[1].transform.position = indexPosition;
+                doorText[1].transform.rotation = indexRotation;
+
                 break;
 
             case 2: // 빨간 인형 탐색
@@ -103,10 +115,16 @@ public class AnomalyManager : MonoBehaviour
                 airConditioner.SetActive(false);
                 break;
 
-            case 12: // 교실 사물함 이상현상
-                for(int i = 0; i < rackClassroom.Length; i++)
+            case 12: // 교실 의자 이상현상
+                Transform chairTransform;
+
+                for(int i = 0; i < lightClassroom.Length; i++)
+                    lightClassroom[i].SetActive(false);
+
+                for (int i = 0; i < chairClassroom.Length; i++)
                 {
-                    rackClassroom[i].SetActive(false);
+                    chairTransform = chairClassroom[i].transform;
+                    chairTransform.position = new Vector3(chairTransform.position.x, 2.95f,chairTransform.position.z);
                 }
                 break;
 
