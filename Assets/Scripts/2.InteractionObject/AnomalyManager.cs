@@ -30,6 +30,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject anomalyClassDesk; // 이상현상 상태 교실 책상
     public GameObject lockerRoomMonster; // 락커룸 괴물
     public GameObject speaker; // 스피커
+    public GameObject[] lightClubroom; // 동아리방 전등
 
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
@@ -52,6 +53,7 @@ public class AnomalyManager : MonoBehaviour
         switch (anomalyNum)
         {
             case 0: // 일반상태
+
                 break;
 
             case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화
@@ -163,6 +165,19 @@ public class AnomalyManager : MonoBehaviour
 
             case 19: // 동아리방 문 잠금 이상현상
                 clubRoomTrigger.SetActive(true);
+                break;
+
+            case 20: // 동아리방 전등 이상현상
+
+                foreach (GameObject light in lightClubroom)
+                {
+                    Transform lightTranform = light.transform;
+
+                    lightTranform.rotation = Quaternion.Euler(180f, 90f, 0f);
+                    lightTranform.localPosition = new Vector3(lightTranform.localPosition.x, lightTranform.localPosition.y - 0.6f, lightTranform.localPosition.z);
+
+                }
+
                 break;
         }
     }
