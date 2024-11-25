@@ -43,7 +43,7 @@ public class DisappearOnLight : MonoBehaviour
             isHit = false; // 라이트가 아무것도 감지하지 않음
         }
 
-        // 빛이 2초 동안 연속적으로 오브젝트에 닿았는지 확인
+        // 빛이 시간 동안 연속적으로 오브젝트에 닿았는지 확인
         if(isHit)
         {
             timer += Time.deltaTime;

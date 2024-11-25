@@ -4,6 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 플레이어와 상호작용 하는 오브젝트 관리 스크립트
+/// </summary>
+
 public class InteractionManager : MonoBehaviour
 {
     public GameObject playerCamera;
