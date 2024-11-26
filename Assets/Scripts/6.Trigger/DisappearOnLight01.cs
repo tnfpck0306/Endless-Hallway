@@ -52,8 +52,17 @@ public class DisappearOnLight01 : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= timeToDisappear && !isTriggerActive)
             {
+                isTriggerActive = true;
                 animator.SetBool("Found", true);
+
             }
+        }
+
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsName("Standing02"))
+        {
+            gameObject.SetActive(false);
         }
 
     }
