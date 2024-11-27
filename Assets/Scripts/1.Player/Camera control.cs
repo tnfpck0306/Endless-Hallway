@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static PlayerMovement;
 
 public class Cameracontrol : MonoBehaviour
 {
@@ -9,9 +10,11 @@ public class Cameracontrol : MonoBehaviour
     public PlayerInven playerInven;
 
     public Camera playerCamera;
+    public SpeakerControl control;
 
     [SerializeField]private float MouseSensitivity = 400f;
     private float xRotation = 0f;
+    private Vector3 lastMousePosition;
 
     private void Awake()
     {
@@ -23,6 +26,8 @@ public class Cameracontrol : MonoBehaviour
         if (playerMovement.playerState != PlayerMovement.PlayerState.Limit) {
             Rotate();
         }
+
+        NoMovement();
 
     }
 
@@ -57,5 +62,26 @@ public class Cameracontrol : MonoBehaviour
         
         // 카메라 회전에 맞춰 손전등 회전
         Flashlight.transform.localRotation = transform.localRotation;
+    }
+
+    // 움직임 금지
+    private void NoMovement()
+    {
+        // 스피커 소리가 들리지 않을 때 움직임 금지(18번 이상현상)
+        if (GameManager.instance.anomalyNum == 18)
+        {
+            if (!control.isPlayingSound && IsMouseMoved())
+            {
+                GameManager.instance.EndGame();
+            }
+
+            lastMousePosition = Input.mousePosition;
+        }
+    }
+
+    // 마우스 움직임 감지
+    private bool IsMouseMoved()
+    {
+        return lastMousePosition != Input.mousePosition;
     }
 }

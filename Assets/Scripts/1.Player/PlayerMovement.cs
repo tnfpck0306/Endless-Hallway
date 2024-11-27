@@ -47,13 +47,6 @@ public class PlayerMovement : MonoBehaviour
             PlayerMove(); // 플레이어 이동
         }
 
-        // 스피커 소리가 들리지 않을 때 움직임 금지(18번 이상현상)
-        if(GameManager.instance.anomalyNum == 18)
-        {
-            if(playerState == PlayerState.Walk && !speakerControl.isPlayingSound)
-                GameManager.instance.EndGame();
-        }
-
     }
 
     // 정답 선택시(이상현상 문) 플레이어 이동
@@ -134,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             NoRunning();
+            NoMovement();
         }
         // 움직임이 없을 때
         else
@@ -149,6 +143,16 @@ public class PlayerMovement : MonoBehaviour
         if (isSprinting == true && GameManager.instance.anomalyNum == 14)
         {
             GameManager.instance.EndGame();
+        }
+    }
+
+    private void NoMovement()
+    {
+        // 스피커 소리가 들리지 않을 때 움직임 금지(18번 이상현상)
+        if (GameManager.instance.anomalyNum == 18)
+        {
+            if (playerState == PlayerState.Walk && !speakerControl.isPlayingSound)
+                GameManager.instance.EndGame();
         }
     }
 }

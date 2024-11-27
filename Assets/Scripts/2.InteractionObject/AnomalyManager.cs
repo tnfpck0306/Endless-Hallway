@@ -33,6 +33,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject[] lightClubroom; // 동아리방 전등
 
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
+    public GameObject closeDoorTrigger; // 문닫는 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
     public GameObject ballbounceTrigger; // 공 굴러가는 이상현상 트리거
     public GameObject clubRoomTrigger; // 동아리방 이상현상 트리거
@@ -103,6 +104,7 @@ public class AnomalyManager : MonoBehaviour
 
             case 9: // 청각 상실
                 audioManager.LossHearing();
+                closeDoorTrigger.SetActive(true);
                 break;
 
             case 10: // 피로 된 발자국

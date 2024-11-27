@@ -3,24 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 문을 닫는 트리거 스크립트(문 잠금)
+/// 문을 닫는 트리거 스크립트(문 잠금 X)
 /// </summary>
-public class ClubroomTrigger : MonoBehaviour
+public class CloseDoorTrigger : MonoBehaviour
 {
-    public GameObject clubDoor; // 동아리방 문
+    public GameObject door; // 문
     private bool isTriigerActive = false; // 트리거 작동 여부
-    private bool isKeyActive = false; // 키 작동 여부
-
-    public PlayerInven playerInven;
-
-    private void Update()
-    {
-        if (playerInven.blueKey && !isKeyActive)
-        {
-            isKeyActive = true;
-            clubDoor.tag = "OpenDoor";
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,8 +16,8 @@ public class ClubroomTrigger : MonoBehaviour
         if (other.CompareTag("Player") && !isTriigerActive)
         {
             isTriigerActive = true;
-            clubDoor.GetComponent<BoxCollider>().enabled = true;
-            StartCoroutine(OpenSlide(clubDoor.transform, -0.8f, "Door"));
+            door.GetComponent<BoxCollider>().enabled = true;
+            StartCoroutine(OpenSlide(door.transform, -0.8f, "OpenDoor"));
         }
     }
 
@@ -51,5 +39,6 @@ public class ClubroomTrigger : MonoBehaviour
         }
 
         targetObject.gameObject.tag = stateTag;
+        gameObject.SetActive(false);
     }
 }
