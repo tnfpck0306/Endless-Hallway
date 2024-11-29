@@ -161,8 +161,9 @@ public class AnomalyManager : MonoBehaviour
 
             case 18: // 스피커 이상현상
                 SpeakerControl speakerControl = speaker.GetComponent<SpeakerControl>();
-                AudioClip audioClip = audioManager.preloadClips[4];
-                speakerControl.SpeakerSound(audioClip);
+                AudioClip audioClip01 = audioManager.preloadClips[4];
+                AudioClip audioClip02 = audioManager.preloadClips[8];
+                speakerControl.SpeakerSound(audioClip01, audioClip02);
                 break;
 
             case 19: // 동아리방 문 잠금 이상현상
@@ -199,7 +200,7 @@ public class AnomalyManager : MonoBehaviour
         GameManager.instance.condition = true; // 조건 충족
         int dollNum = anomalyNum - 2;
 
-        playerEventAudio.DollLaughSound(audioManager.preloadClips[7]);
+        playerEventAudio.PlayerEventSound(audioManager.preloadClips[7]);
 
         doll[dollNum].SetActive(true);
         picture[dollNum].SetActive(false);

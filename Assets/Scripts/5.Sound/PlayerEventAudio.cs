@@ -11,7 +11,7 @@ public class PlayerEventAudio : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void DollLaughSound(AudioClip audioClip)
+    public void PlayerEventSound(AudioClip audioClip)
     {
         audioSource.clip = audioClip;
         audioSource.Play();
