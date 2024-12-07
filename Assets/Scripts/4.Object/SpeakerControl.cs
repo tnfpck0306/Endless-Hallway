@@ -39,15 +39,17 @@ public class SpeakerControl : MonoBehaviour
             audioSource.Stop();
             yield return new WaitForSeconds(1f); // 플레이어의 인지 간격
             isPlayingSound = false;
+
+            if (count == 5)
+            {
+                fakeUI.SetActive(true);
+            }
+
             yield return new WaitForSeconds(silenceDuration);
 
             if(count == 3)
             {
                 evenetAudio.PlayerEventSound(clapEventClip);
-            }
-            else if(count == 5)
-            {
-                fakeUI.SetActive(true);
             }
             yield return new WaitForSeconds(silenceDuration);
 
