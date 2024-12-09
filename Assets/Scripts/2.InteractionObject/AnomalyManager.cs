@@ -30,6 +30,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject anomalyClassDesk; // 이상현상 상태 교실 책상
     public GameObject lockerRoomMonster; // 락커룸 괴물
     public GameObject speaker; // 스피커
+    public GameObject poster; // 스피커 주의 포스터
     public GameObject[] lightClubroom; // 동아리방 전등
 
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
@@ -160,6 +161,7 @@ public class AnomalyManager : MonoBehaviour
                 break;
 
             case 18: // 스피커 이상현상
+                poster.SetActive(true);
                 SpeakerControl speakerControl = speaker.GetComponent<SpeakerControl>();
                 AudioClip audioClip01 = audioManager.preloadClips[4];
                 AudioClip audioClip02 = audioManager.preloadClips[8];

@@ -8,6 +8,16 @@ public class EmptyClassTrigger : MonoBehaviour
     public float triggerTime = 5f; // 트리거 발동 시간
     public GameObject door; // 어두운 공간 교실 문
 
+    private Vector3 monsterStartPos;
+    private Vector3 monsterTargetPos;
+    public GameObject monster;
+
+    private void Start()
+    {
+        monsterStartPos = monster.transform.localPosition;
+        monsterTargetPos = new Vector3(monsterStartPos.x, monsterStartPos.y, -0.4f);
+    }
+
     private void OnTriggerStay(Collider other)
     {
         // 플레이어가 트리거 존 안에 존재할 경우
@@ -25,10 +35,27 @@ public class EmptyClassTrigger : MonoBehaviour
     // 문 닫힘
     IEnumerator closeDoor(Transform targetObject, float distance)
     {
+        float elapsedTime = 0.0f;
+
+        while (true)
+        {
+            elapsedTime += Time.deltaTime;
+
+            monster.transform.localPosition = Vector3.Lerp(monsterStartPos, monsterTargetPos, elapsedTime / 0.2f);
+
+            if(elapsedTime > 0.8f)
+            {
+                monster.transform.localPosition = monsterTargetPos;
+                break;
+            }
+
+            yield return null;
+        }
+
         Vector3 targetPosition;
         targetPosition = new Vector3(targetObject.localPosition.x + distance, targetObject.localPosition.y, targetObject.localPosition.z);
 
-        float elapsedTime = 0.0f;
+        elapsedTime = 0.0f;
 
         while (elapsedTime < 1f)
         {

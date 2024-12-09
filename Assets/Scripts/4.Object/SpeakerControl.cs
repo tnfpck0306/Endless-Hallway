@@ -11,10 +11,14 @@ public class SpeakerControl : MonoBehaviour
     public GameObject fakeUI;
     public PlayerEventAudio evenetAudio;
     private AudioSource audioSource;
+    private AudioSource fakeUIAudio;
+
+    public AudioClip[] anomalySFX;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        fakeUIAudio = fakeUI.GetComponent<AudioSource>();
     }
 
     public void SpeakerSound(AudioClip whiteNoiseClip, AudioClip clapEventClip)
@@ -40,23 +44,30 @@ public class SpeakerControl : MonoBehaviour
             yield return new WaitForSeconds(1f); // 플레이어의 인지 간격
             isPlayingSound = false;
 
-            if (count == 5)
+            if (count == 2)
             {
                 fakeUI.SetActive(true);
+                fakeUIAudio.clip = anomalySFX[0];
+                fakeUIAudio.Play();
             }
 
             yield return new WaitForSeconds(silenceDuration);
 
-            if(count == 3)
+            if(count == 4)
             {
                 evenetAudio.PlayerEventSound(clapEventClip);
             }
             yield return new WaitForSeconds(silenceDuration);
 
-            if(count == 5)
+            if(count == 2)
             {
+                fakeUI.GetComponent<BoxCollider>().enabled = true;
                 fakeUI.transform.SetParent(null);
                 fakeUI.GetComponent<Rigidbody>().useGravity = true;
+                yield return new WaitForSeconds(0.3f);
+                fakeUI.transform.position = new Vector3(fakeUI.transform.position.x, 0.1f, fakeUI.transform.position.z);
+                fakeUIAudio.clip = anomalySFX[1];
+                fakeUIAudio.Play();
             }
 
             count++;

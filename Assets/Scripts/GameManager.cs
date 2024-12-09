@@ -108,6 +108,10 @@ public class GameManager : MonoBehaviour
         {
             stage++; // 스테이지 증가
             anomalyData.Remove(GameManager.instance.anomalyNum);
+
+            // 클리어한 이상현상 저장
+            string anomalyKey = anomalyNum.ToString();
+            PlayerPrefs.GetInt(anomalyKey, 1);
         }
 
         // 오답인 경우
