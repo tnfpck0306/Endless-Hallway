@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -190,6 +191,14 @@ public class InteractionManager : MonoBehaviour
                     playerMovement.MoveNormalHall();
                     cameraControl.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
                 }
+                break;
+
+            // 클리어 문 상호작용
+            case "Clear":
+                // 커서 고정 풀기
+                Cursor.lockState = CursorLockMode.Confined;
+                GameManager.instance.isFadeOut = true;
+                SceneManager.LoadScene("MainMenu");
                 break;
         }
 

@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
 
             // 클리어한 이상현상 저장
             string anomalyKey = anomalyNum.ToString();
-            PlayerPrefs.GetInt(anomalyKey, 1);
+            PlayerPrefs.SetInt(anomalyKey, 1);
         }
 
         // 오답인 경우
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
         else
         {
             anomalyNum = 0;
-            SceneManager.LoadScene("Endless Hallway02");
+            SceneManager.LoadScene("Ending Hallway");
         }
     }
 

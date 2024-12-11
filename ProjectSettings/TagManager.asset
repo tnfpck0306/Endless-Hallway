@@ -17,6 +17,7 @@ TagManager:
   - SlideObj_R
   - HideDoll
   - Wall
+  - Clear
   layers:
   - Default
   - TransparentFX
