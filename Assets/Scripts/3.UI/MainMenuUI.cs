@@ -62,4 +62,10 @@ public class MainMenuUI : MonoBehaviour
     {
         settingPanel.SetActive(false);
     }
+
+    public void ResetDataButton()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("MainMenu");
+    }
 }
