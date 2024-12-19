@@ -9,6 +9,8 @@ public class CameraSwitch : MonoBehaviour
     public GameObject menuPanel; // 메뉴 panel
     public GameObject returnButton; // 되돌아가기 버튼
 
+    [SerializeField] private CheckAnomaly checkAnomaly;
+
     public void SwitchCamera()
     {
         if (cameraA != null && cameraB != null)
@@ -18,6 +20,7 @@ public class CameraSwitch : MonoBehaviour
             cameraB.enabled = !cameraB.enabled;
             menuPanel.SetActive(!menuPanel.activeSelf);
             returnButton.SetActive(!returnButton.activeSelf);
+            checkAnomaly.enabled = !checkAnomaly.enabled;
         }
     }
 }

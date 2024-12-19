@@ -15,8 +15,11 @@ public class ResolutionControl : MonoBehaviour
         // 모든 해상도 옵션 가져오기
         foreach (Resolution res in Screen.resolutions)
         {
-            resolutions.Add(res);
-            resolutionDropdown.options.Add(new Dropdown.OptionData(res.width + "x" + res.height));
+            if ((res.width * 9 == res.height * 16) && res.width >= 1280)
+            {
+                resolutions.Add(res);
+                resolutionDropdown.options.Add(new Dropdown.OptionData(res.width + "x" + res.height));
+            }
         }
 
         // 현재 해상도 설정
