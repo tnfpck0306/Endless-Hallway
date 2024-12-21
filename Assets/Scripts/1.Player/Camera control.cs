@@ -5,21 +5,12 @@ using static PlayerMovement;
 public class Cameracontrol : MonoBehaviour
 {
     public GameObject Flashlight;
-    public ClickManager clickManager;
     public PlayerMovement playerMovement;
-    public PlayerInven playerInven;
-
-    public Camera playerCamera;
     public SpeakerControl control;
 
     [SerializeField]private float MouseSensitivity = 400f;
     private float xRotation = 0f;
     private Vector3 lastMousePosition;
-
-    private void Awake()
-    {
-        playerCamera = GetComponent<Camera>();
-    }
 
     private void Update()
     {
@@ -29,18 +20,6 @@ public class Cameracontrol : MonoBehaviour
 
         NoMovement();
 
-    }
-
-    // 카메라 및 손전등 고정 위치(Zoom-In 상태일 때)
-    public void Fixation(float x, float z)
-    {
-        playerCamera.fieldOfView = 30f; // 시야각 조정
-
-        float boardY = clickManager.hit.transform.rotation.eulerAngles.y;
-        boardY = (boardY + 180) % 360;
-        transform.rotation = Quaternion.Euler(x, boardY, z);
-
-        Flashlight.transform.rotation = transform.rotation;
     }
 
     // 마우스 위치에 따른 시점 및 손전등 이동

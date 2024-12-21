@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (target == 3 || target == 4)
                 {
-                    GameManager.instance.EndingScean();
+                    GameManager.instance.ChangeScean();
 
                 }
                 

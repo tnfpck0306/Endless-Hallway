@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.11320758, g: 0.106265604, b: 0.106265604, a: 1}
+  m_AmbientSkyColor: {r: 0.02745098, g: 0.02745098, b: 0.02745098, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -18649,7 +18649,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.89411765, g: 0.8862745, b: 0.8117647, a: 1}
   m_Intensity: 1.1
-  m_Range: 40
+  m_Range: 25
   m_SpotAngle: 70
   m_InnerSpotAngle: 1
   m_CookieSize: 10
@@ -22113,6 +22113,8 @@ MonoBehaviour:
   speaker: {fileID: 456155593}
   poster: {fileID: 0}
   lightClubroom: []
+  graffiti: {fileID: 0}
+  anomalyGraffiti: {fileID: 0}
   palmTrigger: {fileID: 1979323574}
   closeDoorTrigger: {fileID: 0}
   footprintTrigger: {fileID: 357602505}
@@ -34796,6 +34798,10 @@ MonoBehaviour:
   - {fileID: 62766747}
   - {fileID: 1995317775}
   - {fileID: 1881179056}
+  interactionColider: []
+  anomalyPicture: []
+  anomalyPicturePanel: {fileID: 0}
+  countAnomaly: 0
 --- !u!1 &1148912311
 GameObject:
   m_ObjectHideFlags: 0
@@ -35156,6 +35162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fowardForce: 50
   bounceForce: 200
+  audioClips: []
 --- !u!82 &1150035946
 AudioSource:
   m_ObjectHideFlags: 0

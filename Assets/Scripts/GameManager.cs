@@ -145,7 +145,8 @@ public class GameManager : MonoBehaviour
         fadeControl.RegisterCallback(SceneReset);
     }
 
-    public void EndingScean()
+    // ¾À ÀüÈ¯
+    public void ChangeScean()
     {
         if (stage != endingStage)
             SceneManager.LoadScene("Endless Hallway01");
@@ -156,7 +157,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ¾À ÀüÈ¯
+    // ¾À ÃÊ±âÈ­
     private void SceneReset()
     {
         isFadeOut = true;

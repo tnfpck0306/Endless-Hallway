@@ -16,8 +16,11 @@ public class UIManager : MonoBehaviour
     public PlayerMovement playerMovement;
     public GameObject menuPanel;
     public GameObject settingPanel;
+    private Cursor cursorState;
 
+    [SerializeField] private ClickManager clickManager;
     [SerializeField] private Toggle toggleButton;
+    private CursorLockMode cursorLockMode;
 
     private void Awake()
     {
@@ -43,9 +46,13 @@ public class UIManager : MonoBehaviour
         {
             if(!menuPanel.activeSelf)
             {
+                // 게임 상호작용 비작동
+                clickManager.enabled = false;
+
                 // 오디오 리스너 음소거
                 AudioListener.pause = true;
 
+                cursorLockMode = Cursor.lockState;
                 // 커서 고정 풀기
                 Cursor.lockState = CursorLockMode.Confined;
 
@@ -87,11 +94,14 @@ public class UIManager : MonoBehaviour
     // 메뉴의 return 버튼
     public void ReturnMenuButton()
     {
+        // 게임 상호작용 작동
+        clickManager.enabled = true;
+
         // 오디오 리스너 음소거 해제
         AudioListener.pause = false;
 
         // 커서를 화면 중간에 고정, 커서 숨김
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = cursorLockMode;
 
         Time.timeScale = 1;
         menuPanel.SetActive(false);

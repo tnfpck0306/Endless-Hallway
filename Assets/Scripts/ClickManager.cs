@@ -9,6 +9,7 @@ public class ClickManager : MonoBehaviour
     public InteractionManager interactionManager;
     public GameObject player;
     public GameObject InteratctionReticle;
+    [SerializeField]private float interactDistance;
 
     public Ray ray;
     public RaycastHit hit;
@@ -27,7 +28,7 @@ public class ClickManager : MonoBehaviour
         float distance = Vector3.Distance(player.transform.position, interactionObj.transform.position);
         
         // 상호작용 가능한 오브젝트가 일정 거리 안에 있을 때
-        if (rayHitString != "Untagged" && distance < 4.0f)
+        if (rayHitString != "Untagged" && distance < interactDistance)
         {
             InteratctionReticle.SetActive(true); // 상호작용 조준점으로 ui 활성화
 

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static PlayerMovement;
 
 /// <summary>
 /// 플레이어와 상호작용 하는 오브젝트 관리 스크립트
@@ -12,8 +13,11 @@ using UnityEngine.UI;
 public class InteractionManager : MonoBehaviour
 {
     public GameObject playerCamera;
-    public GameObject flashLight;
-    public GameObject zoomOutButton;
+    public GameObject flashLight; // 손전등
+    public Light noticeLight; // 공지문 빛
+
+    private Camera cameraA; // 메인 카메라
+    public Camera cameraB; // 공지문 카메라
 
     public Cameracontrol cameraControl; // 카메라 움직임 참조
     private ObjectRotate objectRotate;
@@ -36,6 +40,7 @@ public class InteractionManager : MonoBehaviour
 
     public void Start()
     {
+        cameraA = playerCamera.GetComponent<Camera>();
         objectRotate = gameObject.GetComponent<ObjectRotate>();
         
         time = 0;
@@ -77,10 +82,7 @@ public class InteractionManager : MonoBehaviour
 
             // 게시판 상호작용
             case "Board":
-                playerMovement.audioSource.Stop();
-                cameraControl.Fixation(0f, 0f);
-                TargetObject = clickManager.hit.transform;
-                ZoomIn(TargetObject, 1.3f, 0f);
+                SwitchCamera();
                 break;
 
             // 각 사물함 문(오른쪽으로 열림) 상호작용
@@ -157,20 +159,6 @@ public class InteractionManager : MonoBehaviour
                 anomalyManager.FindeDoll(GameManager.instance.anomalyNum);
                 break;
 
-            // 되돌아가기 버튼(Zoom-Out) 상호작용
-            case "ZoomOut":
-                if (playerMovement.playerState == PlayerMovement.PlayerState.Limit)
-                {
-                    playerMovement.playerState = PlayerMovement.PlayerState.Stop;
-                    zoomOutButton.SetActive(false);
-                    TargetObject.GetComponent<BoxCollider>().enabled = true;
-
-                    cameraControl.playerCamera.fieldOfView = 60f;
-                    playerCamera.transform.position = cameraPosition;
-                    flashLight.transform.position = flashPosition;
-                }
-                break;
-
             // 정답 선택 - 이상현상 문 상호작용
             case "Anomaly":
                 if (playerInven.blueKey)
@@ -216,28 +204,34 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
-    // 오브젝트에 Zoom-In(타겟오브젝트, x/z축 거리, y축 거리)
-    private void ZoomIn(Transform target, float distance, float distanceY)
+    // 카메라 화면 변경
+    public void SwitchCamera()
     {
-        cameraPosition = playerCamera.transform.position; // 카메라 position 저장
-        flashPosition = flashLight.transform.position; // 손전등 position 저장
+        if (cameraA != null && cameraB != null)
+        {
+            // A 카메라 비활성화, B 카메라 활성화
+            cameraA.enabled = !cameraA.enabled;
+            cameraB.enabled = !cameraB.enabled;
 
-        playerMovement.playerState = PlayerMovement.PlayerState.Limit;
-        zoomOutButton.SetActive(true); // 버튼 생성
-        target.GetComponent<BoxCollider>().enabled = false;
+            Light mainLight = flashLight.GetComponent<Light>();
+            mainLight.enabled = !mainLight.enabled;
+            noticeLight.enabled = !noticeLight.enabled;
 
-        // 오브젝트의 rotation에 따른 카메라의 위치
-        if (target.eulerAngles.y == 270)
-            playerCamera.transform.position = new Vector3(target.position.x - distance, target.position.y + distanceY, target.position.z);
-        else if (target.eulerAngles.y == 0)
-            playerCamera.transform.position = new Vector3(target.position.x, target.position.y + distanceY, target.position.z + distance);
-        else if (target.eulerAngles.y == 90)
-            playerCamera.transform.position = new Vector3(target.position.x + distance, target.position.y + distanceY, target.position.z);
-        else if (target.eulerAngles.y == 180)
-            playerCamera.transform.position = new Vector3(target.position.x, target.position.y + distanceY, target.position.z - distance);
+            // 플레이어 움직임 제한
+            if (playerMovement.playerState != PlayerState.Limit)
+            {
+                playerMovement.audioSource.Stop();
+                playerMovement.playerState = PlayerState.Limit;
+            }
+            else
+                playerMovement.playerState = PlayerState.Stop;
 
-        // 카메라 위치에 손전등 위치 이동
-        flashLight.transform.position = playerCamera.transform.position;
+            // 커서 고정 풀기
+            if (Cursor.lockState == CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.Confined;
+            else
+                Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     // 잠긴문 흔들기
