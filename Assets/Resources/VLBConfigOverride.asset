@@ -52,8 +52,7 @@ MonoBehaviour:
     _UniqueID: 3
   m_DefaultRaymarchingQualityUniqueID: 2
   pluginVersion: 20202
-  _DummyMaterial: {fileID: 2100000, guid: c4ae6da887a24fe48a4368e1a3e46c17, type: 2}
-  _DummyMaterialHD: {fileID: 2100000, guid: 113e94fbebd58294cbb783d9aa018804, type: 2}
-  _BeamShader: {fileID: 4800000, guid: e73b3e2b19df1664ba38ddf82cfab36b, type: 3}
-  _BeamShaderHD: {fileID: 4800000, guid: 9c83d27e2427dce418cfc3871f68b706, type: 3}
-  m_CachedFadeOutCamera: {fileID: 0}
+  _DummyMaterial: {fileID: 2100000, guid: 95f44eee3898148439a90e9f27bf67bd, type: 2}
+  _DummyMaterialHD: {fileID: 2100000, guid: 763e316b2f152d5409a8c532db243023, type: 2}
+  _BeamShader: {fileID: 4800000, guid: 1e6f505f361290649bffc7f2cef227a5, type: 3}
+  _BeamShaderHD: {fileID: 4800000, guid: c6bd388567adfb84dafffcd040f8dd6e, type: 3}
