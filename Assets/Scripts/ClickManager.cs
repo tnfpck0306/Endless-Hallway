@@ -16,9 +16,12 @@ public class ClickManager : MonoBehaviour
     public GameObject interactionObj; // 상호작용 하는 오브젝트
     public string rayHitString; // 상호작용 하는 오브젝트의 테그'string'
 
+    [SerializeField]Texture2D defaultCursor;
+    [SerializeField]Texture2D interactionCursor;
+
     private void Start()
     {
-        // 커서를 화면 중간에 고정, 커서 숨김
+        // 커서를 화면 중간에 고정
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -31,6 +34,7 @@ public class ClickManager : MonoBehaviour
         if (rayHitString != "Untagged" && distance < interactDistance)
         {
             InteratctionReticle.SetActive(true); // 상호작용 조준점으로 ui 활성화
+            Cursor.SetCursor(interactionCursor, new Vector2(32, 32), CursorMode.Auto);
 
             // 마우스 좌클릭
             if (Input.GetMouseButtonDown(0))
@@ -42,6 +46,7 @@ public class ClickManager : MonoBehaviour
         else
         {
             InteratctionReticle.SetActive(false); // 상호작용 조준점으로 ui 비활성화
+            Cursor.SetCursor(defaultCursor, new Vector2(32, 32), CursorMode.Auto);
         }
 
         // 마우스 우클릭

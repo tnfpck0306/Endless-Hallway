@@ -2,6 +2,9 @@ using System.Collections;
 using UnityEngine;
 using static PlayerMovement;
 
+/// <summary>
+/// 카메라 움직임 스크립트
+/// </summary>
 public class Cameracontrol : MonoBehaviour
 {
     public GameObject Flashlight;

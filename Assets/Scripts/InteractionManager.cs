@@ -14,6 +14,7 @@ public class InteractionManager : MonoBehaviour
 {
     public GameObject playerCamera;
     public GameObject flashLight; // 손전등
+    public GameObject Reticle; // UI 커서
     public Light noticeLight; // 공지문 빛
 
     private Camera cameraA; // 메인 카메라
@@ -228,9 +229,15 @@ public class InteractionManager : MonoBehaviour
 
             // 커서 고정 풀기
             if (Cursor.lockState == CursorLockMode.Locked)
+            {
                 Cursor.lockState = CursorLockMode.Confined;
+                Reticle.SetActive(false);
+            }
             else
+            {
                 Cursor.lockState = CursorLockMode.Locked;
+                Reticle.SetActive(true);
+            }
         }
     }
 
