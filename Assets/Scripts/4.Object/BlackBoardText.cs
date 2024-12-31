@@ -19,18 +19,24 @@ public class BlackBoardText : MonoBehaviour
     [SerializeField] private string fullText04 = "despair fear";
     [SerializeField] private string wallText= "die";
 
-
     [SerializeField] private float delay = 0.2f; // 한 글자당 출력 지연 시간
 
     public DetectLight detectLight;
+    private AudioSource audioSource01;
+    private AudioSource audioSource02;
     private bool activeCheck = false;
 
     private void Update()
     {
         if (detectLight.isTriggerActive && !activeCheck)
         {
-            displayText01.GetComponent<AudioSource>().Play();
-            displayText02.GetComponent<AudioSource>().Play();
+            audioSource01 = displayText01.GetComponent<AudioSource>();
+            audioSource02 = displayText02.GetComponent<AudioSource>();
+
+            audioSource01.pitch = 1.2f;
+            audioSource02.pitch = 1.2f;
+            audioSource01.Play();
+            audioSource02.Play();
 
             StartCoroutine(TypeTextContinuously(displayText01, fullText01, 200));
             StartCoroutine(TypeTextContinuously(displayTextSub01, fullText01, 200));
@@ -67,8 +73,8 @@ public class BlackBoardText : MonoBehaviour
             {
                 if(maxTextLength == 213)
                 {
-                    displayText01.GetComponent<AudioSource>().Stop();
-                    displayText02.GetComponent<AudioSource>().Stop();
+                    audioSource01.Stop();
+                    audioSource02.Stop();
                 }
                 break;
             }

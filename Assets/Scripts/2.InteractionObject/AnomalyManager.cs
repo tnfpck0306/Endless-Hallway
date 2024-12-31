@@ -35,6 +35,8 @@ public class AnomalyManager : MonoBehaviour
     public GameObject[] lightClubroom; // 동아리방 전등
     public GameObject graffiti; // 칠판 낙서
     public GameObject anomalyGraffiti; // 칠판 낙서 이상현상
+    public GameObject walkPoster; // 기본 포스터
+    public GameObject posterAnomaly; // 포스터 이상현상
 
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject closeDoorTrigger; // 문닫는 트리거
@@ -192,6 +194,11 @@ public class AnomalyManager : MonoBehaviour
             case 21: // 칠판 이상현상
                 graffiti.SetActive(false);
                 anomalyGraffiti.SetActive(true);
+                break;
+
+            case 22: // 포스터 그림 움직임 이상현상
+                walkPoster.SetActive(false);
+                posterAnomaly.SetActive(true);
                 break;
         }
     }
