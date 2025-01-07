@@ -9,7 +9,7 @@ public class AnomalyManager : MonoBehaviour
 {
     public GameObject keyNotice; // 사용자 키 설명 공지문
     public GameObject[] exitLight; // 탈출구 지시등
-    public GameObject[] doorText; // 탈출문 문구
+    public GameObject eraseExit; // 탈출구 그림 제거
     public GameObject[] doll; // 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] hideDoll; // 숨겨진 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] picture; // Find me 그림
@@ -66,15 +66,7 @@ public class AnomalyManager : MonoBehaviour
             case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화
                 exitLight[0].SetActive(false);
                 exitLight[1].SetActive(true);
-
-                Vector3 indexPosition = doorText[0].transform.position;
-                Quaternion indexRotation = doorText[0].transform.rotation;
-
-                doorText[0].transform.position = doorText[1].transform.position;
-                doorText[0].transform.rotation = doorText[1].transform.rotation;
-
-                doorText[1].transform.position = indexPosition;
-                doorText[1].transform.rotation = indexRotation;
+                eraseExit.SetActive(true);
 
                 break;
 
