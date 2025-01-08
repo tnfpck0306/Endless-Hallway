@@ -29,6 +29,9 @@ public class InteractionManager : MonoBehaviour
     public AudioManager audioManager;
     private AudioSource audioSource;
 
+    public GameObject hallwayMap;
+    public GameObject mazeMap;
+
     [SerializeField] private float shakeTime = 0.6f;
     [SerializeField] private float shakeSpeed = 1.0f;
     [SerializeField] private float shakeAmount = 0.5f;
@@ -156,13 +159,22 @@ public class InteractionManager : MonoBehaviour
                 StartCoroutine(CheckTime());
                 break;
 
+            // 숨겨진 인형 발견 상호작용
             case "HideDoll":
                 anomalyManager.FindeDoll(GameManager.instance.anomalyNum);
                 break;
 
+            case "RedKey":
+                mazeMap.SetActive(true);
+                hallwayMap.SetActive(false);
+
+                playerInven.redKey = true;
+                interactionObj.SetActive(false);
+                break;
+
             // 정답 선택 - 이상현상 문 상호작용
             case "Anomaly":
-                if (playerInven.blueKey)
+                if (playerInven.blueKey || playerInven.redKey)
                 {
                     playerMovement.playerState = PlayerMovement.PlayerState.Limit;
                     ChooseDoor(targetTag);

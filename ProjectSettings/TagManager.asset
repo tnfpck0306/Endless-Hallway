@@ -18,6 +18,7 @@ TagManager:
   - HideDoll
   - Wall
   - Clear
+  - RedKey
   layers:
   - Default
   - TransparentFX

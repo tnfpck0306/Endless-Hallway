@@ -8,9 +8,11 @@ using UnityEngine;
 public class PlayerInven : MonoBehaviour
 {
     public bool blueKey;
+    public bool redKey;
 
     void Start()
     {
         blueKey = false;
+        redKey = false;
     }
 }

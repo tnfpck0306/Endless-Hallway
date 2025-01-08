@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Endless Hallway01.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
+    path: Assets/Scenes/Endless Hallway02.unity
+    guid: 7ad7ab0073b298b4b99b292a0ab624b6
+  - enabled: 1
     path: Assets/Scenes/Ending Hallway.unity
     guid: cb1381a1f3306b3438e0235377b16be9
   m_configObjects: {}

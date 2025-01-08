@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     {
         objectRotate.Rotation(90f, doorObject[0]);
         objectRotate.Rotation(-90f, doorObject[1]);
-        StartCoroutine(Movement(3));
+        StartCoroutine(Movement(0));
     }
 
     // 정답 선택시(일반 문) 플레이어 이동
@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     {
         objectRotate.Rotation(90f, doorObject[2]);
         objectRotate.Rotation(-90f, doorObject[3]);
-        StartCoroutine(Movement(4));
+        StartCoroutine(Movement(1));
     }
 
     // 플레이어 조종 움직임
@@ -95,7 +95,8 @@ public class PlayerMovement : MonoBehaviour
             if (Vector3.Distance(transform.position, targetPositions[target].position) == 0)
             {
 
-                if (target == 3 || target == 4)
+                // 목표 지점 도착시
+                if (target == 0 || target == 1)
                 {
                     GameManager.instance.ChangeScean();
 

@@ -192,6 +192,9 @@ public class AnomalyManager : MonoBehaviour
                 walkPoster.SetActive(false);
                 posterAnomaly.SetActive(true);
                 break;
+
+            case 23: // 복도 탈출 이상현상
+                break;
         }
     }
 

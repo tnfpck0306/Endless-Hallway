@@ -148,12 +148,20 @@ public class GameManager : MonoBehaviour
     // 씬 전환
     public void ChangeScean()
     {
+        // 게임의 마지막 단계가 아닌 경우
         if (stage != endingStage)
-            SceneManager.LoadScene("Endless Hallway01");
-        else
+        {
+            // 23번 이상현상(복도탈출)인 경우
+            if (anomalyNum == 23)
+                SceneManager.LoadScene("Endless Hallway02"); // Hallway02 씬으로 이동
+
+            else 
+                SceneManager.LoadScene("Endless Hallway01"); // Hallway01 씬으로 이동
+        }
+        else // 게임의 마지막 단계인 경우
         {
             anomalyNum = 0;
-            SceneManager.LoadScene("Ending Hallway");
+            SceneManager.LoadScene("Ending Hallway"); // 엔딩 씬으로 이동
         }
     }
 
