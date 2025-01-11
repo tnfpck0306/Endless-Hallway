@@ -46,6 +46,9 @@ public class GameManager : MonoBehaviour
     public FadeControl fadeControl; // 페이드 인/아웃
     public bool isFadeOut = true;
 
+    [SerializeField] private TestMode testMode;
+    private int testNum = 0;
+
     private void Awake()
     {
 
@@ -79,7 +82,7 @@ public class GameManager : MonoBehaviour
 
         else // 그 외 스테이지(변동확률 : 이상현상 75% / 정상 25% <이상현상 발생 시 정상 확률 증가> )
         {
-            
+
             if (randStage > 3) // 정상적일 때(이상현상이 없을 때)
             {
                 stageState = StageState.Normal;
@@ -96,6 +99,13 @@ public class GameManager : MonoBehaviour
                 {
                     randStage_max++;
                 }
+            }
+
+            // 테스트 버전에서 이상현상 1번부터 차례대로 확인
+            if (testMode.testModeON)
+            {
+                stageState = StageState.Anomaly;
+                anomalyNum = ++testNum;
             }
         }
     }
@@ -138,7 +148,15 @@ public class GameManager : MonoBehaviour
         randStage_max = 5;
         anomalyData = new List<int>(anomaly.anomalyList);
         anomalyNum = 0;
-        GetStageState();
+
+        // 테스트 버전에서 게임오버 이후 stage의 이상현상은 동일
+        if (testMode.testModeON)
+        {
+            stageState = StageState.Anomaly;
+            anomalyNum = testNum;
+        }
+        else
+            GetStageState();
 
         // 페이드 아웃
         fadeControl.FadeOut();

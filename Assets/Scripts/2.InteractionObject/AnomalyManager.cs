@@ -73,26 +73,32 @@ public class AnomalyManager : MonoBehaviour
             case 2: // 빨간 인형 탐색
                 HideDoll(0);
                 fireExting.SetActive(false);
+                StartCoroutine(Timer(240));
                 break;
 
             case 3: // 파란 인형 탐색
                 HideDoll(1);
+                StartCoroutine(Timer(240));
                 break;
 
             case 4: // 초록 인형 탐색
                 HideDoll(2);
+                StartCoroutine(Timer(240));
                 break;
 
             case 5: // 하얀 인형 탐색
                 HideDoll(3);
+                StartCoroutine(Timer(240));
                 break;
 
             case 6: // 검은 인형 탐색
                 HideDoll(4);
+                StartCoroutine(Timer(240));
                 break;
 
             case 7: // 갈색 인형 탐색
                 HideDoll(5);
+                StartCoroutine(Timer(240));
                 break;
             
             case 8: // 피로 된 손자국
@@ -219,5 +225,28 @@ public class AnomalyManager : MonoBehaviour
         picture[dollNum].SetActive(false);
         hideDoll[dollNum].SetActive(false);
 
+    }
+
+    // 시간 제한 타이머
+    IEnumerator Timer(float time)
+    {
+        float currentTime = 0;
+
+        while(true)
+        {
+            currentTime += Time.deltaTime;
+
+            if(currentTime > time)
+            {
+                // 시간안에 조건 불충족 시 게임오버
+                if (!GameManager.instance.condition)
+                {
+                    GameManager.instance.EndGame();
+                }
+                break;
+            }
+
+            yield return null;
+        }
     }
 }

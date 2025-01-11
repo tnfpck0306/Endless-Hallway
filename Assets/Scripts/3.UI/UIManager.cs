@@ -9,10 +9,6 @@ using UnityEngine.UI;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
-    public Text stageStateText;
-    public Text stageText;
-    public Text playerStateText;
-
     public PlayerMovement playerMovement;
     public GameObject menuPanel;
     public GameObject settingPanel;
@@ -38,9 +34,6 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        playerStateText.text = $"PlayerState : {playerMovement.playerState}";
-        stageStateText.text = $"Stage State : {GameManager.instance.anomalyNum}{GameManager.instance.stageState}";
-        stageText.text = $"Stage : {GameManager.instance.stage}";
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
