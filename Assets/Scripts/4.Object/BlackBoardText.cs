@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// 칠판 이상현상 스크립트
+/// </summary>
 public class BlackBoardText : MonoBehaviour
 {
     public TextMeshPro displayText01; // TextMeshPro 컴포넌트

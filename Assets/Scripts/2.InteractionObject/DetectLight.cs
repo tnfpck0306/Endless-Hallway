@@ -43,7 +43,6 @@ public class DetectLight : MonoBehaviour
             if (timer >= timeToDisappear && !isTriggerActive)
             {
                 isTriggerActive = true;
-
             }
         }
     }

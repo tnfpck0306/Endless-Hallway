@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     public bool isFadeOut = true;
 
     [SerializeField] private TestMode testMode;
+    [SerializeField] private bool testOn;
     private int testNum = 0;
 
     private void Awake()
@@ -70,6 +71,8 @@ public class GameManager : MonoBehaviour
         anomalyData = new List<int>(anomaly.anomalyList);
         anomalyNum = 0;
 
+        testOn = testMode.testModeON;
+
     }
 
     // 스테이지 상태 설정
@@ -79,6 +82,13 @@ public class GameManager : MonoBehaviour
         // 첫 스테이지는 정상적인 상태
         if (stage == 0)
             stageState = StageState.Normal;
+
+        // 테스트 버전에서 이상현상 1번부터 차례대로 확인
+        else if (testOn)
+        {
+            stageState = StageState.Anomaly;
+            anomalyNum = ++testNum;
+        }
 
         else // 그 외 스테이지(변동확률 : 이상현상 75% / 정상 25% <이상현상 발생 시 정상 확률 증가> )
         {
@@ -100,21 +110,22 @@ public class GameManager : MonoBehaviour
                     randStage_max++;
                 }
             }
-
-            // 테스트 버전에서 이상현상 1번부터 차례대로 확인
-            if (testMode.testModeON)
-            {
-                stageState = StageState.Anomaly;
-                anomalyNum = ++testNum;
-            }
         }
     }
 
     // 정답비교
     public void CompareAns(string choice)
     {
+        // 테스트 버전에서 확인
+        if (testOn)
+        {
+            // 클리어한 이상현상 저장
+            string anomalyKey = anomalyNum.ToString();
+            PlayerPrefs.SetInt(anomalyKey, 1);
+        }
+
         // 정답인 경우
-        if (choice.Equals(stageState.ToString()) && condition)
+        else if (choice.Equals(stageState.ToString()) && condition)
         {
             stage++; // 스테이지 증가
             anomalyData.Remove(GameManager.instance.anomalyNum);
@@ -150,13 +161,15 @@ public class GameManager : MonoBehaviour
         anomalyNum = 0;
 
         // 테스트 버전에서 게임오버 이후 stage의 이상현상은 동일
-        if (testMode.testModeON)
+        if (testOn)
         {
             stageState = StageState.Anomaly;
             anomalyNum = testNum;
         }
         else
+        {
             GetStageState();
+        }
 
         // 페이드 아웃
         fadeControl.FadeOut();
