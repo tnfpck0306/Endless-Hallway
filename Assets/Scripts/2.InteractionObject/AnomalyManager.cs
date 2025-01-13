@@ -38,6 +38,8 @@ public class AnomalyManager : MonoBehaviour
     public GameObject walkPoster; // 기본 포스터
     public GameObject posterAnomaly; // 포스터 이상현상
 
+    public bool ceilingAnomalyOn = false; // 천장 부품 이상현상 작동 여부
+
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject closeDoorTrigger; // 문닫는 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
@@ -136,7 +138,7 @@ public class AnomalyManager : MonoBehaviour
                 }
                 break;
 
-            case 13: // 어두운 교실 이상현상
+            case 13: // 어두운 교실(1반) 이상현상
                 apple.SetActive(false);
                 darkSpaceMonster.SetActive(true);
                 break;
@@ -200,6 +202,10 @@ public class AnomalyManager : MonoBehaviour
                 break;
 
             case 23: // 복도 탈출 이상현상
+                break;
+
+            case 24: // 천장 부품 이상현상
+                ceilingAnomalyOn = true;
                 break;
         }
     }

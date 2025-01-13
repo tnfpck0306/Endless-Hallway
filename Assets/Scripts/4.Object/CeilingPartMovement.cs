@@ -12,11 +12,13 @@ public class CeilingPartMovement : MonoBehaviour
     public float detectionAngle = 30f; // 플레이어의 시야각
     public float maxDistance = 5f; // 오브젝트가 움직일 수 있는 최대 거리
 
+    public AnomalyManager anomalyManager;
+
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
-        if (distanceToPlayer <= maxDistance)
+        if (distanceToPlayer <= maxDistance && anomalyManager.ceilingAnomalyOn)
         {
             Vector3 directionToPlayer = (player.position - transform.position).normalized;
             float angleToPlayer = Vector3.Angle(-player.forward, directionToPlayer);

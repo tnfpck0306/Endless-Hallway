@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 어두운 교실(1반) 이상현상 스크립트
+/// </summary>
 public class EmptyClassTrigger : MonoBehaviour
 {
     private float timeSpentIsZone = 0f; // 플레이어가 트리거 존에 들어와 있는 시간
