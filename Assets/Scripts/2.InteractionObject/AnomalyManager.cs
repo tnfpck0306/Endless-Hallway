@@ -40,6 +40,11 @@ public class AnomalyManager : MonoBehaviour
 
     public bool ceilingAnomalyOn = false; // 천장 부품 이상현상 작동 여부
 
+
+    public Transform[] teleportPosition; // 순간이동 위치
+    public Transform playerTransform; // 플레이어 위치
+    public Light spotLight; // 손전등
+
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
     public GameObject closeDoorTrigger; // 문닫는 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
@@ -62,7 +67,7 @@ public class AnomalyManager : MonoBehaviour
         switch (anomalyNum)
         {
             case 0: // 일반상태
-
+                StartCoroutine(Teleport());
                 break;
 
             case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화
@@ -75,32 +80,32 @@ public class AnomalyManager : MonoBehaviour
             case 2: // 빨간 인형 탐색
                 HideDoll(0);
                 fireExting.SetActive(false);
-                StartCoroutine(Timer(240));
+                StartCoroutine(Timer(200));
                 break;
 
             case 3: // 파란 인형 탐색
                 HideDoll(1);
-                StartCoroutine(Timer(240));
+                StartCoroutine(Timer(200));
                 break;
 
             case 4: // 초록 인형 탐색
                 HideDoll(2);
-                StartCoroutine(Timer(240));
+                StartCoroutine(Timer(200));
                 break;
 
             case 5: // 하얀 인형 탐색
                 HideDoll(3);
-                StartCoroutine(Timer(240));
+                StartCoroutine(Timer(200));
                 break;
 
             case 6: // 검은 인형 탐색
                 HideDoll(4);
-                StartCoroutine(Timer(240));
+                StartCoroutine(Timer(200));
                 break;
 
             case 7: // 갈색 인형 탐색
                 HideDoll(5);
-                StartCoroutine(Timer(240));
+                StartCoroutine(Timer(200));
                 break;
             
             case 8: // 피로 된 손자국
@@ -144,6 +149,7 @@ public class AnomalyManager : MonoBehaviour
                 break;
 
             case 14: // 달리기 금지 이상현상
+                // PlayerMovement에 이상현상 관련 스크립트
                 dontRunPaper.SetActive(true);
                 for (int i = 0; i < board.Length; i++)
                 {
@@ -167,6 +173,8 @@ public class AnomalyManager : MonoBehaviour
                 break;
 
             case 18: // 스피커 이상현상
+                // PlayerMovement에 이상현상 관련 스크립트
+
                 poster.SetActive(true);
                 SpeakerControl speakerControl = speaker.GetComponent<SpeakerControl>();
                 AudioClip audioClip01 = audioManager.preloadClips[4];
@@ -206,6 +214,16 @@ public class AnomalyManager : MonoBehaviour
 
             case 24: // 천장 부품 이상현상
                 ceilingAnomalyOn = true;
+                break;
+
+            case 25: // 메뉴창 이상현상
+                // UIManger에 이상현상 관련 스크립트
+                // Camera control에 이상현상 관련 스크립트
+
+                break;
+
+            case 26: // 손전등 이상현상
+                StartCoroutine(Teleport());
                 break;
         }
     }
@@ -250,6 +268,53 @@ public class AnomalyManager : MonoBehaviour
                     GameManager.instance.EndGame();
                 }
                 break;
+            }
+
+            yield return null;
+        }
+    }
+
+    // 26번 이상현상(순간이동)
+    IEnumerator Teleport()
+    {
+        float currentTime = 0;
+        int randPosition;
+
+        AudioSource audioSource = spotLight.GetComponent<AudioSource>();
+        SpotLightAudio spotLightAudio = spotLight.GetComponent<SpotLightAudio>();
+
+        while (true)
+        {
+            currentTime += Time.deltaTime; 
+
+            if(currentTime > 25)
+            {
+                audioSource.clip = spotLightAudio.audioClip[1];
+                audioSource.Play();
+
+                spotLight.enabled = false;
+                yield return new WaitForSeconds(0.15f);
+                spotLight.enabled = true;
+                yield return new WaitForSeconds(0.3f);
+                spotLight.enabled = false;
+                yield return new WaitForSeconds(0.15f);
+                spotLight.enabled = true;
+                yield return new WaitForSeconds(2f);
+
+                spotLight.enabled = false;
+                randPosition = Random.Range(0, teleportPosition.Length);
+
+                yield return new WaitForSeconds(1f);
+                audioSource.clip = spotLightAudio.audioClip[2];
+                audioSource.Play();
+                playerTransform.position = teleportPosition[randPosition].position;
+                playerTransform.rotation = teleportPosition[randPosition].rotation;
+
+                yield return new WaitForSeconds(1f);
+                audioSource.clip = spotLightAudio.audioClip[0];
+                audioSource.Play();
+                spotLight.enabled = true;
+                currentTime = 0;
             }
 
             yield return null;

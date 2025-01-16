@@ -119,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         // 움직임이 있을 때
         if (movement.magnitude > 0)
         {
-            audioSource.pitch = isSprinting ? 1.5f : 1f;
+            audioSource.pitch = isSprinting ? moveSpeed * 0.75f : moveSpeed * 0.5f;
 
             playerState = PlayerState.Walk;
             if (!audioSource.isPlaying)
