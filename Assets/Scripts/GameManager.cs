@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     public FadeControl fadeControl; // 페이드 인/아웃
     public bool isFadeOut = true;
+    private Camera mainCamera;
+    private Camera animCamera;
 
     [SerializeField] private TestMode testMode;
     [SerializeField] private bool testOn;
@@ -152,6 +154,8 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         fadeControl = GameObject.Find("Canvas").GetComponent<FadeControl>();
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        animCamera = GameObject.Find("AnimCamera").GetComponent<Camera>();
 
         // 스테이지 초기화
         condition = true;
@@ -170,6 +174,16 @@ public class GameManager : MonoBehaviour
         {
             GetStageState();
         }
+
+        StartCoroutine(GameOverAnim());
+    }
+
+    IEnumerator GameOverAnim()
+    {
+        mainCamera.enabled = !mainCamera.enabled;
+        animCamera.enabled = !animCamera.enabled;
+
+        yield return new WaitForSeconds(3f);
 
         // 페이드 아웃
         fadeControl.FadeOut();

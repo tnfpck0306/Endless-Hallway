@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    // 정답 선택시(이상현상 문) 플레이어 이동
+    // 문 선택시(이상현상 문) 플레이어 이동
     public void MoveAnomalyHall()
     {
         objectRotate.Rotation(90f, doorObject[0]);
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(Movement(0));
     }
 
-    // 정답 선택시(일반 문) 플레이어 이동
+    // 문 선택시(일반 문) 플레이어 이동
     public void MoveNormalHall()
     {
         objectRotate.Rotation(90f, doorObject[2]);
@@ -85,9 +85,12 @@ public class PlayerMovement : MonoBehaviour
         StepSound(movement);
     }
 
-    // 플레이어 정답 선택시 움직임
+    // 플레이어 문 선택시 움직임
     IEnumerator Movement(int target)
     {
+        playerState = PlayerState.Limit;
+        audioSource.pitch = moveSpeed * 0.5f;
+
         while (true)
         {
             transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPositions[target].position, moveSpeed * Time.deltaTime);

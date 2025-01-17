@@ -12,6 +12,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject eraseExit; // 탈출구 그림 제거
     public GameObject[] doll; // 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
     public GameObject[] hideDoll; // 숨겨진 인형(0.빨강, 1.파랑, 2.초록, 3.하얀, 4.검정, 5.갈색)
+    public GameObject dollAnim; // 게임오버에 사용되는 인형 오브젝트
     public GameObject[] picture; // Find me 그림
     public GameObject fireExting; // 소화기
     public GameObject lockClassDoor; // 잠겨질 교실문
@@ -52,6 +53,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject clubRoomTrigger; // 동아리방 이상현상 트리거
 
     public AudioManager audioManager;
+    public PlayerMovement playerMovement;
     public PlayerEventAudio playerEventAudio;
 
     private void Start()
@@ -67,7 +69,6 @@ public class AnomalyManager : MonoBehaviour
         switch (anomalyNum)
         {
             case 0: // 일반상태
-                StartCoroutine(Teleport());
                 break;
 
             case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화
@@ -80,7 +81,7 @@ public class AnomalyManager : MonoBehaviour
             case 2: // 빨간 인형 탐색
                 HideDoll(0);
                 fireExting.SetActive(false);
-                StartCoroutine(Timer(200));
+                StartCoroutine(Timer(5));
                 break;
 
             case 3: // 파란 인형 탐색
@@ -265,7 +266,9 @@ public class AnomalyManager : MonoBehaviour
                 // 시간안에 조건 불충족 시 게임오버
                 if (!GameManager.instance.condition)
                 {
+                    playerMovement.playerState = PlayerMovement.PlayerState.Limit;
                     GameManager.instance.EndGame();
+                    dollAnim.SetActive(true);
                 }
                 break;
             }

@@ -9,7 +9,7 @@ public class ClickManager : MonoBehaviour
     public InteractionManager interactionManager;
     public GameObject player;
     public GameObject InteratctionReticle;
-    [SerializeField]private float interactDistance;
+    [SerializeField] private float interactDistance;
 
     public Ray ray;
     public RaycastHit hit;
@@ -27,33 +27,36 @@ public class ClickManager : MonoBehaviour
 
     private void Update()
     {
-        RayPoint();
-        float distance = Vector3.Distance(player.transform.position, interactionObj.transform.position);
-        
-        // 상호작용 가능한 오브젝트가 일정 거리 안에 있을 때
-        if (rayHitString != "Untagged" && distance < interactDistance)
+        if (Camera.main != null)
         {
-            InteratctionReticle.SetActive(true); // 상호작용 조준점으로 ui 활성화
-            Cursor.SetCursor(interactionCursor, new Vector2(32, 32), CursorMode.Auto);
+            RayPoint();
+            float distance = Vector3.Distance(player.transform.position, interactionObj.transform.position);
 
-            // 마우스 좌클릭
-            if (Input.GetMouseButtonDown(0))
+            // 상호작용 가능한 오브젝트가 일정 거리 안에 있을 때
+            if (rayHitString != "Untagged" && distance < interactDistance)
             {
-                Debug.Log(rayHitString);
+                InteratctionReticle.SetActive(true); // 상호작용 조준점으로 ui 활성화
+                Cursor.SetCursor(interactionCursor, new Vector2(32, 32), CursorMode.Auto);
+
+                // 마우스 좌클릭
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log(rayHitString);
+                    interactionManager.Interaction(interactionObj);
+                }
+            }
+            else
+            {
+                InteratctionReticle.SetActive(false); // 상호작용 조준점으로 ui 비활성화
+                Cursor.SetCursor(defaultCursor, new Vector2(32, 32), CursorMode.Auto);
+            }
+
+            // 마우스 우클릭
+            if (Input.GetMouseButtonDown(1))
+            {
+                rayHitString = "ZoomOut";
                 interactionManager.Interaction(interactionObj);
             }
-        }
-        else
-        {
-            InteratctionReticle.SetActive(false); // 상호작용 조준점으로 ui 비활성화
-            Cursor.SetCursor(defaultCursor, new Vector2(32, 32), CursorMode.Auto);
-        }
-
-        // 마우스 우클릭
-        if (Input.GetMouseButtonDown(1))
-        {
-            rayHitString = "ZoomOut";
-            interactionManager.Interaction(interactionObj);
         }
     }
 
