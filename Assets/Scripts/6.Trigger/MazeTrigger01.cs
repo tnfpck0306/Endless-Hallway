@@ -7,6 +7,7 @@ public class MazeTrigger01 : MonoBehaviour
     private bool check = false;
     [SerializeField] private GameObject[] chair;
     [SerializeField] private float[] distance;
+    [SerializeField] private float activeSpeed;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -30,10 +31,10 @@ public class MazeTrigger01 : MonoBehaviour
         Vector3 targetPosition;
         targetPosition = new Vector3(targetObject.localPosition.x, targetObject.localPosition.y, targetObject.localPosition.z + distance);
 
-        while (elapsedTime < 1f)
+        while (elapsedTime < activeSpeed)
         {
             elapsedTime += Time.deltaTime;
-            targetObject.localPosition = Vector3.Lerp(targetObject.localPosition, targetPosition, elapsedTime);
+            targetObject.localPosition = Vector3.Lerp(targetObject.localPosition, targetPosition, elapsedTime / activeSpeed);
 
             /*
             if (!soundCheck)
