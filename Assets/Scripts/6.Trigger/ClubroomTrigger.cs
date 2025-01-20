@@ -8,6 +8,7 @@ using UnityEngine;
 public class ClubroomTrigger : MonoBehaviour
 {
     public GameObject clubDoor; // 동아리방 문
+    public GameObject findKeyTimer; // 타이머
     private bool isTriigerActive = false; // 트리거 작동 여부
     private bool isKeyActive = false; // 키 작동 여부
 
@@ -19,6 +20,7 @@ public class ClubroomTrigger : MonoBehaviour
         {
             isKeyActive = true;
             clubDoor.tag = "OpenDoor";
+            findKeyTimer.SetActive(false);
         }
     }
 
@@ -28,6 +30,7 @@ public class ClubroomTrigger : MonoBehaviour
         if (other.CompareTag("Player") && !isTriigerActive)
         {
             isTriigerActive = true;
+            findKeyTimer.SetActive(true);
             clubDoor.GetComponent<BoxCollider>().enabled = true;
             StartCoroutine(OpenSlide(clubDoor.transform, -0.8f, "Door"));
         }
@@ -36,6 +39,8 @@ public class ClubroomTrigger : MonoBehaviour
     // 문 좌/우로 열기
     IEnumerator OpenSlide(Transform targetObject, float distance, string stateTag)
     {
+        yield return new WaitForSeconds(1f);
+
         Vector3 targetPosition;
 
         targetPosition = new Vector3(targetObject.localPosition.x + distance, targetObject.localPosition.y, targetObject.localPosition.z);

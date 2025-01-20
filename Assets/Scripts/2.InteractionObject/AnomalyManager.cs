@@ -183,7 +183,7 @@ public class AnomalyManager : MonoBehaviour
                 speakerControl.SpeakerSound(audioClip01, audioClip02);
                 break;
 
-            case 19: // 동아리방 문 잠금 이상현상
+            case 19: // 동아리방 열쇠 찾기 이상현상
                 clubRoomTrigger.SetActive(true);
                 break;
 
