@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// 열쇠 찾기 이상현상(19번) 타이머
+/// </summary>
 public class FindKeyTimer : MonoBehaviour
 {
 
@@ -10,9 +13,15 @@ public class FindKeyTimer : MonoBehaviour
     public float detectionAngle = 45f; // 플레이어의 시야각
     public ClubroomTrigger trigger;
 
-    private float timer = 10f;
+    private GameObject monster;
+    private float timer = 31f;
     private bool gameOver = false;
     [SerializeField]private TextMeshPro timerText;
+
+    private void Start()
+    {
+        monster = transform.GetChild(0).gameObject;
+    }
 
     // Update is called once per frame
     void Update()
@@ -30,7 +39,16 @@ public class FindKeyTimer : MonoBehaviour
         else
         {
             timer -= Time.deltaTime;
-            timerText.text = ((int)timer).ToString();
+            if ((int)timer % 5 == 0)
+            {
+                GetComponent<AudioSource>().Play();
+                timerText.text = ((int)timer).ToString();
+            }
+
+            if (!monster.activeSelf)
+            {
+                monster.SetActive(true);
+            }
         }
 
         if(timer <= 0 && !gameOver)

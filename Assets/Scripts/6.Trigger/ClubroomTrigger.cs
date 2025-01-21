@@ -14,6 +14,9 @@ public class ClubroomTrigger : MonoBehaviour
 
     public PlayerInven playerInven;
 
+    /// <summary>
+    /// 열쇠 찾기 이상현상(19번) 작동 트리거
+    /// </summary>
     private void Update()
     {
         if (playerInven.blueKey && !isKeyActive)
@@ -32,11 +35,11 @@ public class ClubroomTrigger : MonoBehaviour
             isTriigerActive = true;
             findKeyTimer.SetActive(true);
             clubDoor.GetComponent<BoxCollider>().enabled = true;
-            StartCoroutine(OpenSlide(clubDoor.transform, -0.8f, "Door"));
+            StartCoroutine(OpenSlide(clubDoor.transform, -0.8f, "Door")); // 문 닫기
         }
     }
 
-    // 문 좌/우로 열기
+    // 문 좌/우로 이동
     IEnumerator OpenSlide(Transform targetObject, float distance, string stateTag)
     {
         yield return new WaitForSeconds(1f);
