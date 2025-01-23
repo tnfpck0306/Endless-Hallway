@@ -11,11 +11,4 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource[] sfx;
 
-    public void LossHearing()
-    {
-        for(int i = 0; i < sfx.Length; i++)
-        {
-            sfx[i].enabled = false;
-        }
-    }
 }

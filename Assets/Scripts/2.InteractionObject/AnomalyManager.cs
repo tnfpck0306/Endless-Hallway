@@ -16,6 +16,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject[] picture; // Find me 그림
     public GameObject fireExting; // 소화기
     public GameObject lockClassDoor; // 잠겨질 교실문
+    public GameObject[] BroomBucket; // 빗자루
     public GameObject ceilingHallway; // 복도 천장
     public GameObject ceilingPart; // 복도 천장 파츠
     public GameObject ceilingMonster; // 천장 이상현상
@@ -47,7 +48,6 @@ public class AnomalyManager : MonoBehaviour
     public Light spotLight; // 손전등
 
     public GameObject palmTrigger; // 손바닥 이상현상 트리거
-    public GameObject closeDoorTrigger; // 문닫는 트리거
     public GameObject footprintTrigger; // 발자국 이상현상 트리거
     public GameObject ballbounceTrigger; // 공 굴러가는 이상현상 트리거
     public GameObject clubRoomTrigger; // 동아리방 이상현상 트리거
@@ -69,7 +69,6 @@ public class AnomalyManager : MonoBehaviour
         switch (anomalyNum)
         {
             case 0: // 일반상태
-                clubRoomTrigger.SetActive(true);
                 break;
 
             case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화
@@ -115,9 +114,9 @@ public class AnomalyManager : MonoBehaviour
                 lockClassDoor.tag = "Door";
                 break;
 
-            case 9: // 청각 상실
-                audioManager.LossHearing();
-                closeDoorTrigger.SetActive(true);
+            case 9: // 피 묻은 빗자루
+                BroomBucket[0].SetActive(false); // 기본 청소도구
+                BroomBucket[1].SetActive(true); // 이상현상
                 break;
 
             case 10: // 피로 된 발자국
