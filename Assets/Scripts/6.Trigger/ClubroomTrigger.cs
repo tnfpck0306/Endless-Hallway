@@ -52,7 +52,7 @@ public class ClubroomTrigger : MonoBehaviour
 
         while (elapsedTime < 1f)
         {
-            elapsedTime += Time.deltaTime * 0.3f;
+            elapsedTime += Time.deltaTime;
             targetObject.localPosition = Vector3.Lerp(targetObject.localPosition, targetPosition, elapsedTime);
 
             yield return null;

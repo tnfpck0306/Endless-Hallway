@@ -14,7 +14,7 @@ public class FindKeyTimer : MonoBehaviour
     public ClubroomTrigger trigger;
 
     private GameObject monster;
-    private float timer = 31f;
+    private float timer = 21f;
     private bool gameOver = false;
     [SerializeField]private TextMeshPro timerText;
 
