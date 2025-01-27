@@ -4,6 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// 문을 닫는 트리거 스크립트(문 잠금)
+/// 열쇠 찾기 이상현상(19번) 작동 트리거
 /// </summary>
 public class ClubroomTrigger : MonoBehaviour
 {
@@ -14,9 +15,6 @@ public class ClubroomTrigger : MonoBehaviour
 
     public PlayerInven playerInven;
 
-    /// <summary>
-    /// 열쇠 찾기 이상현상(19번) 작동 트리거
-    /// </summary>
     private void Update()
     {
         if (playerInven.blueKey && !isKeyActive)
@@ -49,6 +47,7 @@ public class ClubroomTrigger : MonoBehaviour
         targetPosition = new Vector3(targetObject.localPosition.x + distance, targetObject.localPosition.y, targetObject.localPosition.z);
 
         float elapsedTime = 0.0f;
+        gameObject.GetComponent<AudioSource>().Play();
 
         while (elapsedTime < 1f)
         {
@@ -57,7 +56,6 @@ public class ClubroomTrigger : MonoBehaviour
 
             yield return null;
         }
-
         targetObject.gameObject.tag = stateTag;
     }
 }

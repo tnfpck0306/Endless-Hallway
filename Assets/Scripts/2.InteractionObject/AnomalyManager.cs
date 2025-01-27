@@ -19,7 +19,6 @@ public class AnomalyManager : MonoBehaviour
     public GameObject[] BroomBucket; // 빗자루
     public GameObject ceilingHallway; // 복도 천장
     public GameObject ceilingPart; // 복도 천장 파츠
-    public GameObject ceilingMonster; // 천장 이상현상
     public GameObject airConditioner; // 동아리방 에어컨
     public GameObject ceilingClubroom; // 동아리방 천장
     public GameObject[] chairClassroom; // 교실 의자
@@ -69,7 +68,7 @@ public class AnomalyManager : MonoBehaviour
         switch (anomalyNum)
         {
             case 0: // 일반상태
-                //clubRoomTrigger.SetActive(true);
+
                 break;
 
             case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화
@@ -82,7 +81,7 @@ public class AnomalyManager : MonoBehaviour
             case 2: // 빨간 인형 탐색
                 HideDoll(0);
                 fireExting.SetActive(false);
-                StartCoroutine(Timer(5));
+                StartCoroutine(Timer(200));
                 break;
 
             case 3: // 파란 인형 탐색
@@ -101,6 +100,9 @@ public class AnomalyManager : MonoBehaviour
                 break;
 
             case 6: // 검은 인형 탐색
+                ceilingClubroom.SetActive(false);
+                airConditioner.SetActive(false);
+
                 HideDoll(4);
                 StartCoroutine(Timer(200));
                 break;
@@ -126,10 +128,8 @@ public class AnomalyManager : MonoBehaviour
                 ceilingPart.SetActive(false);
                 break;
 
-            case 11: // 동아리방 에어컨 이상현상
-                ceilingMonster.SetActive(true);
-                ceilingClubroom.SetActive(false);
-                airConditioner.SetActive(false);
+            case 11: 
+                
                 break;
 
             case 12: // 교실 의자 이상현상
