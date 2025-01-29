@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MazeTrigger01 : MonoBehaviour
+public class ObjectMovement : MonoBehaviour
 {
     private bool check = false;
     [SerializeField] private GameObject[] chair;

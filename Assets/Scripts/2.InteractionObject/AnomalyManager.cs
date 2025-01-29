@@ -23,7 +23,7 @@ public class AnomalyManager : MonoBehaviour
     public GameObject ceilingClubroom; // 동아리방 천장
     public GameObject[] chairClassroom; // 교실 의자
     public GameObject[] lightClassroom; // 교실 전등
-    public GameObject apple;
+    public GameObject apple; // 교실 사과
     public GameObject darkSpaceMonster; // 어두운 공간 유령
     public GameObject dontRunPaper; // 뛰기 금지 포스터
     public GameObject lockClubDoor; // 동아리방 문
@@ -68,7 +68,8 @@ public class AnomalyManager : MonoBehaviour
         switch (anomalyNum)
         {
             case 0: // 일반상태
-
+                lockClassDoor.SetActive(false);
+                lockerRoomMonster.SetActive(true);
                 break;
 
             case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화
@@ -171,6 +172,7 @@ public class AnomalyManager : MonoBehaviour
                 break;
 
             case 17: // 락커룸 괴물 이상현상
+                lockClassDoor.SetActive(false);
                 lockerRoomMonster.SetActive(true);
                 break;
 
