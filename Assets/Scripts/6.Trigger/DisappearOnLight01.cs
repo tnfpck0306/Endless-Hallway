@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 17번 이상현상, 복도 괴물의 움직임 트리거
+/// 17번 이상현상, 복도 괴물의 애니메이션 트리거
 /// </summary>
 
 public class DisappearOnLight01 : MonoBehaviour
@@ -11,10 +11,11 @@ public class DisappearOnLight01 : MonoBehaviour
     public Light flashLight; // 손전등 라이트
     public float detectionRange = 10f;
     public float timeToDisappear = 2f;
+    public bool anomalyActive = false; // anomaly 실행 여부
 
     private float timer = 0f;
     private bool isHit = false; // 빛 감지 여부
-    private bool isTriggerActive = false; // 트리거 작동 여부
+    private bool animActive = false; // 애니메이션 작동 여부
     private Animator animator;
 
     private void Start()
@@ -50,9 +51,9 @@ public class DisappearOnLight01 : MonoBehaviour
         if (isHit)
         {
             timer += Time.deltaTime;
-            if (timer >= timeToDisappear && !isTriggerActive)
+            if (timer >= timeToDisappear && !animActive)
             {
-                isTriggerActive = true;
+                animActive = true;
                 animator.SetBool("Found", true);
 
             }
@@ -62,6 +63,7 @@ public class DisappearOnLight01 : MonoBehaviour
 
         if (stateInfo.IsName("Standing02"))
         {
+            anomalyActive = true;
             gameObject.SetActive(false);
         }
 

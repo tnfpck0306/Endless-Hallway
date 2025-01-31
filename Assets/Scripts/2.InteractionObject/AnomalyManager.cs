@@ -68,8 +68,6 @@ public class AnomalyManager : MonoBehaviour
         switch (anomalyNum)
         {
             case 0: // 일반상태
-                lockClassDoor.SetActive(false);
-                lockerRoomMonster.SetActive(true);
                 break;
 
             case 1: // 탈출구 지시등 변화 및 탈출문 문구 변화

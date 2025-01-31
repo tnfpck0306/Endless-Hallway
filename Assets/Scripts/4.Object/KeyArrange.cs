@@ -8,6 +8,8 @@ using UnityEngine;
 public class KeyArrange : MonoBehaviour
 {
     public Transform[] keySpaces; // 키가 배치될 transform
+    public LockerMonsterTrigger lockerMonster;
+
     [SerializeField] private int num;
 
     void Start()
@@ -20,9 +22,18 @@ public class KeyArrange : MonoBehaviour
     {
         num = Random.Range(0, keySpaces.Length - 1);
 
-        if(GameManager.instance.anomalyNum == 14)
+        if (GameManager.instance.anomalyNum == 0)
+        {
+            num = 15;
+        }
+        else if (GameManager.instance.anomalyNum == 14)
+        {
+            num = 29;
+        }
+        else if (GameManager.instance.anomalyNum == 17)
         {
             num = 28;
+            StartCoroutine(KeySFX());
         }
 
         Vector3 index = keySpaces[num].position;
@@ -34,7 +45,7 @@ public class KeyArrange : MonoBehaviour
             index.x += 0.15f;
             index.z -= 0.1f;
         }
-        else if(num < 28){
+        else if(num < 29){
             index.y -= 0.05f;
             transform.rotation = indexRotation;
         }
@@ -44,4 +55,15 @@ public class KeyArrange : MonoBehaviour
 
     }
 
+    IEnumerator KeySFX()
+    {
+        while (true)
+        {
+            if(lockerMonster.check)
+                GetComponent<AudioSource>().Play();
+
+            yield return new WaitForSeconds(3f);
+        }
+
+    }
 }
